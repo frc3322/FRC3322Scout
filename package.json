@@ -1,0 +1,14 @@
+{
+  "name": "3322-scout",
+  "version": "1.0.0",
+  "description": "Scouting Application for FIRST Robotics Competition Team 3322",
+  "main": "backend.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Efe Akinci, Jonathan Park, Noah Berman",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.8.2"
+  }
+}
