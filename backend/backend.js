@@ -10,8 +10,6 @@ mongoose.connect("mongodb+srv://rouser:nbBvbtUDROLXc6ib@cluster0-1kgz4.mongodb.n
 
 
 
-
-
 function createRecord(incJson) {
     new RobotMatchModel({
         matchNumber: incJson.matchNumber,
@@ -33,4 +31,8 @@ function findTeamsInMatch(matchNumber) {
     RobotMatchModel.find({matchNumber: matchNumber}).then(found=>{console.log(found)});
 }
 
-findTeamByMatchNumber(3322, 1);
+function updateTeam(jsonFile) {
+    RobotMatchModel.findOneAndUpdate({matchNumber: jsonFile.matchNumber, 'robot.teamNumber': jsonFile.robot.teamNumber}, jsonFile, {upsert: true}, (err) => {
+        if (err) console.log("Error updating record." + err);
+    });
+}
