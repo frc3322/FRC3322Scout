@@ -67,10 +67,10 @@ function updateTeam(matchJson, callback) {
 app.get('/', (req, res) => {
     createRecord(
         {
-            matchNumber: 1,
+            matchNumber: 2,
             won: true,
             robot: {
-                teamNumber: 6429,
+                teamNumber: 3322,
                 allianceColor: "red",
                 allianceNumber: 1
             },

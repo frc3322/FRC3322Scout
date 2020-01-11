@@ -4,9 +4,10 @@ import {Col, Container, Row, DropdownButton, Dropdown} from "react-bootstrap";
 import TeamInMatch from './Searches/TeamInMatch';
 import DropdownItem from 'react-bootstrap/DropdownItem';
 import AllTeamsInMatch from './Searches/AllTeamsInMatch';
+import AllTeamMatches from './Searches/AllTeamMatches';
 import './SearchComponent.css';
 
-const selectionNames = ["Search For Team In Match", "Search For All Teams In A Match"]
+const selectionNames = ["Search For Team In Match", "Search For All Teams In A Match", "Search For Matches In Which a Team Has Played"]
 
 class SearchComponent extends React.Component {
     constructor(props) {
@@ -32,6 +33,8 @@ class SearchComponent extends React.Component {
                 return <TeamInMatch sendMatches={this.setMatches}/>;
             case 1:
                 return <AllTeamsInMatch sendMatches={this.setMatches}/>;
+            case 2:
+                return <AllTeamMatches sendMatches={this.setMatches} />
             default:
                 return <p>Error.</p>
     };
@@ -51,6 +54,8 @@ class SearchComponent extends React.Component {
                         <DropdownButton title={(this.state.selected !== "") ? this.state.selected : "Select Search"}>
                             <DropdownItem onClick={this.newItemSelected.bind(this, 0)}>{selectionNames[0]}</DropdownItem>
                             <DropdownItem onClick={this.newItemSelected.bind(this, 1)}>{selectionNames[1]}</DropdownItem>
+                            <DropdownItem onClick={this.newItemSelected.bind(this, 2)}>{selectionNames[2]}</DropdownItem>
+
                         </DropdownButton>
                     </Dropdown> 
                     </Col>

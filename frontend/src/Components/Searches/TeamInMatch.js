@@ -5,7 +5,7 @@ import { Col } from 'react-bootstrap';
 
 
 class TeamInMatch extends Component {
-    url = "http://localhost:8080";
+    url = "http://" + window.location.hostname + ":8080";
 
     constructor(props) {
         super(props)

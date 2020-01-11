@@ -16,7 +16,6 @@ class AllTeamsInMatch extends Component {
 
     onSubmit = (e)=>{
         e.preventDefault();
-        console.log("http://" + window.location.hostname + ":8080");
         this.getMatch(this.state.matchNumber);
     };
 
@@ -26,7 +25,7 @@ class AllTeamsInMatch extends Component {
     }
 
     getMatch = (matchNumber) => {
-        fetch(this.url + '/getallteamsinmatch/' + matchNumber).then(doc=>doc.json()).then(doc => this.props.sendMatches(doc));
+        fetch(this.url + '/getteamstats/' + matchNumber).then(doc=>doc.json()).then(doc => this.props.sendMatches(doc));
     }
     render() {
         return (
