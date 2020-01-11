@@ -8,7 +8,9 @@ let RobotMatchModel = new mongoose.Schema({
         allianceColor: String
     },
     stats: {
-
+        auto: {},
+        teleop: {},
+        endgame: {}
     }
 });
 

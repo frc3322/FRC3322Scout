@@ -1,0 +1,7 @@
+.matchItem {
+    outline: none;
+    box-shadow: 0 1px 6px 0 rgba(37,37,37,0.28);
+    margin: 2em 0;
+    padding: 1.5em;
+    border-radius: 0.5em;
+}

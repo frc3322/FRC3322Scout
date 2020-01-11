@@ -9,6 +9,10 @@
   "author": "Efe Akinci, Jonathan Park, Noah Berman",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "mongoose": "^5.8.2"
-  }
+  },
+  "devDependencies": {}
 }

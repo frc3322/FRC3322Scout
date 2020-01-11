@@ -1,0 +1,8 @@
+.statistics-select {
+    display: flex;
+    justify-content: center;
+}
+
+.statsRow h4{
+    font-weight: normal;
+}

@@ -1,0 +1,61 @@
+input {
+    border-radius: 0.5em;
+    border: rgba(0, 0, 0, 0.2) 1px solid;
+    padding: 0.5em;
+}
+
+input:focus {
+    animation-duration: 0.5s;
+    animation-name: input-focus;
+    transform: scale(1.03);
+    outline: none;
+    box-shadow: 0 1px 6px 0 rgba(37,37,37,0.28);
+
+}
+
+@keyframes input-focus {
+    from {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 1px 8px 0 rgba(37,37,37,0.22);
+    }
+    to{
+        transform: scale(1.03);
+        box-shadow: 0 1px 6px 0 rgba(37,37,37,0.28);
+    }
+}
+
+.searchButton {
+    background-color: white;
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+    border: rgba(0, 0, 0, 0.2) 1px solid;
+
+}
+
+.searchButton:active {
+    color: black;
+}
+
+
+.searchButton:focus {
+    outline: none;
+    animation-duration: 0.5s;
+    animation-name: button-press;
+}
+
+@keyframes button-press {
+    from {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 1px 8px 0 rgba(37,37,37,0.22);
+    }
+    to {
+        transform: scale(1);
+        box-shadow: none;
+    }
+}
