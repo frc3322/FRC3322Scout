@@ -16,7 +16,7 @@ class AllTeamsInMatch extends Component {
 
     onSubmit = (e)=>{
         e.preventDefault();
-        this.getMatch(this.state.matchNumber);
+        this.getMatch(this.state.teamNumber);
     };
 
     onChange = (e)=>{
@@ -24,15 +24,15 @@ class AllTeamsInMatch extends Component {
         console.log(this.state);
     }
 
-    getMatch = (matchNumber) => {
-        fetch(this.url + '/getteamstats/' + matchNumber).then(doc=>doc.json()).then(doc => this.props.sendMatches(doc));
+    getMatch = (teamNumber) => {
+        fetch(this.url + '/getteamstats/' + teamNumber).then(doc=>doc.json()).then(doc => this.props.sendMatches(doc));
     }
     render() {
         return (
             <React.Fragment>
                 <form onSubmit={this.onSubmit} autoComplete="off" className="row">
                         <Col lg="3">
-                            <input className="searchFormElement Entryfield" style={{'marginRight': '1em'}} placeholder="Match Number" name="matchNumber" onChange={this.onChange}/>
+                            <input className="searchFormElement Entryfield" style={{'marginRight': '1em'}} placeholder="Team Number" name="teamNumber" onChange={this.onChange}/>
                         </Col>
                         <Col lg="2">
                             <button className="searchFormElement searchButton" type="submit">Search!</button>
