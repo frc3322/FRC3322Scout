@@ -53,7 +53,7 @@ export default class TeamStatistics extends Component {
                     });
 
                     this.setState(prevState => ({[section]: [
-                        ...prevState[section], {[stat]: (total/nItems)}
+                        ...prevState[section], {[stat]: (total/nItems).toFixed(2)}
                     ]}));
                     
                 });

@@ -1,0 +1,7 @@
+.matchItem {
+    box-shadow: 0 1px 6px 0 rgba(37,37,37,0.28);
+}
+
+.scoutEntryItem {
+    min-width: 60%;
+}

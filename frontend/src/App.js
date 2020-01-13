@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
-import SearchRoot from './Components/SearchRoot';
-import TeamStatistics from './Components/Statistics/TeamStatistics';
+import SearchRoot from './Components/User-Components/SearchRoot';
+import TeamStatistics from './Components/User-Components/Statistics/TeamStatistics';
 import { Container, Row, Col } from 'react-bootstrap';
+import SelectMatch from './Components/Scouter-Components/SelectMatch';
 
 class App extends React.Component {
   render() {
@@ -19,13 +20,15 @@ class App extends React.Component {
                     </Link>
                   </Col>
                   <Col className="navbarItem">
-                    <Link to="data-entry">
+                    <Link to="/data-entry">
                     <h1>Enter Data</h1>
                     </Link>
                   </Col>
                 </Row>
               </Container>
           </Row>
+
+
           <Row style={{marginTop: '1em'}}>
               <Switch>
               <Route exact path="/">
@@ -38,6 +41,11 @@ class App extends React.Component {
                 </Route>
                 <Route path="/teams/:teamNumber" component={TeamStatistics}>
                 </Route>
+
+
+
+              <Route path="/data-entry" component={SelectMatch}></Route>
+                
               </Switch>
           </Row>
 

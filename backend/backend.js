@@ -67,10 +67,10 @@ function updateTeam(matchJson, callback) {
 app.get('/', (req, res) => {
     createRecord(
         {
-            matchNumber: 2,
+            matchNumber: 1,
             won: true,
             robot: {
-                teamNumber: 3322,
+                teamNumber: 6429,
                 allianceColor: "red",
                 allianceNumber: 1
             },
@@ -95,6 +95,22 @@ app.get('/getallteamsinmatch/:matchNumber', (req, res)=>{
 
 app.get('/getteamstats/:teamNumber', (req, res)=>{
     findTeamMatches(req.params.teamNumber).then(doc => res.send(doc));
+});
+
+app.get('/getallscoutentries/:skip', (req, res) => {
+    //TODO Implement Search By Last ID instead. The .skip method won't scale.
+    let searchParams = {}
+    if (req.query.teamNumber !== '') {
+        searchParams['robot.teamNumber'] = req.query.teamNumber;
+    }
+    if (req.query.matchNumber !== '') {
+        searchParams['matchNumber'] = req.query.matchNumber;
+    }
+    console.log(searchParams);
+    
+    let query = (!req.params.skip.isNaN) ? RobotMatchModel.find(searchParams).limit(10).skip(parseInt(req.params.skip)) : RobotMatchModel.find(searchParams).limit(10);
+    
+    return query.then(doc => res.send(doc)).catch(err=>console.log(err));
 });
 
 server.listen(8080);
