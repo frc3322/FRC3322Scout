@@ -7,7 +7,7 @@ import AllTeamsInMatch from './Searches/AllTeamsInMatch';
 import AllTeamMatches from './Searches/AllTeamMatches';
 import './SearchComponent.css';
 
-const selectionNames = ["Search For Team In Match", "Search For All Teams In A Match", "Search For Matches In Which a Team Has Played"]
+const selectionNames = ["Search For Team In Match", "Search For All Teams In A Match", "Search For Team"]
 
 class SearchComponent extends React.Component {
     constructor(props) {

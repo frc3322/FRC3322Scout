@@ -20,13 +20,21 @@ export default class TeamStatistics extends Component {
 
     schema = {
         auto: {
-            testStat: Number,
+            moved: Boolean,
+            scoredBottom: Number,
+            scoredOuter: Number,
+            scoredInner: Number
         },
         teleop: {
-            testStat: Number,
+            scoredBottom: Number,
+            scoredOuter: Number,
+            scoredInner: Number,
+            rotationControl: Boolean,
+            positionControl: Boolean
         },
         endgame: {
-            testStat: Number,
+            didClimb: Boolean,
+            didPark: Boolean
         },
         
     }
