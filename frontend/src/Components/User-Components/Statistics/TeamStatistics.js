@@ -5,7 +5,7 @@ import DropdownItem from 'react-bootstrap/DropdownItem';
 
 export default class TeamStatistics extends Component {
 
-    url = "http://localhost:8080";
+    url = "http://" + window.location.hostname + ":8080";
 
     constructor(props) {
         super(props)
@@ -18,27 +18,6 @@ export default class TeamStatistics extends Component {
         }
     }
 
-    schema = {
-        auto: {
-            moved: Boolean,
-            scoredBottom: Number,
-            scoredOuter: Number,
-            scoredInner: Number
-        },
-        teleop: {
-            scoredBottom: Number,
-            scoredOuter: Number,
-            scoredInner: Number,
-            rotationControl: Boolean,
-            positionControl: Boolean
-        },
-        endgame: {
-            didClimb: Boolean,
-            didPark: Boolean
-        },
-        
-    }
-
     getMatch = (teamNumber) => {
         fetch(this.url + '/getteamstats/' + teamNumber).then(doc=>doc.json()).then((doc) => {
             doc.forEach(element => {
@@ -47,26 +26,9 @@ export default class TeamStatistics extends Component {
                 }
             });
 
-            //TODO Add verification
+            //TODO Add verification            
 
-            let total, nItems;
-
-            Object.keys(this.schema).forEach(section => {
-                Object.keys(this.schema[section]).forEach(stat => {
-                    total = 0;
-                    nItems = 0;
-                    this.state.stats.forEach(match => {
-                        total += match[section][stat];
-                        nItems++;
-                    });
-
-                    this.setState(prevState => ({[section]: [
-                        ...prevState[section], {[stat]: (total/nItems).toFixed(2)}
-                    ]}));
-                    
-                });
-            });
-            
+            console.log(doc);
 
         });
     }
@@ -87,7 +49,6 @@ export default class TeamStatistics extends Component {
                 break;
             
             default:
-                console.log(this.state.selected);
                 return ("");
         }
         let output = mCollection.map((element, id) => {
@@ -112,7 +73,6 @@ export default class TeamStatistics extends Component {
 
     render() {
         let { teamNumber } = this.props.match.params;  
-        console.log(this.displayEntries());
         return (
         <Container fluid="true">
             <Row style={{paddingTop: '1em'}}>

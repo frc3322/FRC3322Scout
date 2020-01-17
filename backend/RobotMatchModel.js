@@ -9,23 +9,9 @@ let RobotMatchModel = new mongoose.Schema({
         allianceColor: String
     },
     stats: {
-        auto: {
-            moved: Boolean,
-            scoredBottom: Number,
-            scoredOuter: Number,
-            scoredInner: Number
-        },
-        teleop: {
-            scoredBottom: Number,
-            scoredOuter: Number,
-            scoredInner: Number,
-            rotationControl: Boolean,
-            positionControl: Boolean
-        },
-        endgame: {
-            didClimb: Boolean,
-            didPark: Boolean
-        }
+        auto: [],
+        teleop: [],
+        endgame: []
     }
 });
 
