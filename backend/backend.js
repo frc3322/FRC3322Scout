@@ -75,9 +75,23 @@ app.get('/', (req, res) => {
                 allianceNumber: 1
             },
             stats: {
-                auto: {testStat: Math.floor(Math.random() * 10)},
-                teleop: {testStat: Math.floor(Math.random() * 10)},
-                endgame: {testStat: Math.floor(Math.random() * 10)}
+                auto: {
+                    moved: Math.random() > 0.5,
+                    scoredBottom: Math.floor(Math.random() * 10),
+                    scoredOuter: Math.floor(Math.random() * 10),
+                    scoredInner: Math.floor(Math.random() * 10)
+                },
+                teleop: {
+                    scoredBottom: Math.floor(Math.random() * 10),
+                    scoredOuter: Math.floor(Math.random() * 10),
+                    scoredInner: Math.floor(Math.random() * 10),
+                    rotationControl: Math.random() > .5,
+                    positionControl: Math.random() > .5
+                },
+                endgame: {
+                    didClimb: Math.random() > .5,
+                    didPark: Math.random() > .5
+                }
             }
         }
     )
