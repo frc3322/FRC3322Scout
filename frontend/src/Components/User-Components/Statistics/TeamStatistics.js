@@ -11,7 +11,6 @@ export default class TeamStatistics extends Component {
         super(props)
         this.state = {
             selected: "",
-            stats: [],
             auto: [],
             teleop: [],
             endgame: []
@@ -22,19 +21,20 @@ export default class TeamStatistics extends Component {
         fetch(this.url + '/getteamstats/' + teamNumber).then(doc=>doc.json()).then((doc) => {
             doc.forEach(element => {
                 if (element.stats !== undefined) {
-                    this.setState(prevState => ({stats: [...prevState.stats, element.stats]}));
+                    this.setState(prevState => ({
+                        auto: [...prevState.auto, element.stats.auto],
+                        teleop: [...prevState.teleop, element.stats.teleop],
+                        teleop: [...prevState.teleop, element.stats.teleop],
+                    }));
                 }
             });
-
-            //TODO Add verification            
-
-            console.log(doc);
 
         });
     }
 
     displayEntries = () => {
         let mCollection;
+        let output = [];
         switch (this.state.selected) {
             case "Autonomous":
                 mCollection = this.state.auto;
@@ -51,16 +51,37 @@ export default class TeamStatistics extends Component {
             default:
                 return ("");
         }
-        let output = mCollection.map((element, id) => {
-            let elementKeys = Object.keys(element);
-            if (elementKeys !== undefined){
-                return(
-                <Row key={id} className="statsRow"><Col xs="6" md="4"><h4>{elementKeys[0]}</h4></Col><Col xs="6" md="2"><h4>{element[elementKeys[0]]}</h4></Col></Row>
-                );
-            } else {
-                return "wtf";
+        if (mCollection != undefined) {
+            if (mCollection.length > 0) {
+                
+                let name = "";
+                let value = 0;
+                let n = 0;
+
+                for (let i = 0; i < mCollection[0].length; i++) {
+                    switch (mCollection[0][i].chartType) {
+
+                        case "L":
+                            mCollection.forEach(match => {
+                                value += match[i].dataValue;
+                                n++;
+                                name = match[i].name;
+                            });
+                            output.push(<Row key={i} className="statsRow"><Col xs="6" md="4"><h4>{name}</h4></Col><Col xs="6" md="2"><h4>{(value/n).toFixed(2)}</h4></Col></Row>);
+                            value = 0;
+                            n = 0;
+                            break;
+                        
+                        case "O":
+                            // Do pie chart stuff
+                            break;
+                    }
+                }
+
+                }
             }
-        });
+
+        // 
         return(output);
     }
 

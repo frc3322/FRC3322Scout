@@ -1,9 +1,5 @@
 class Statistic {
 
-    name;
-    dataValue;
-    chartType;
-
     constructor(name, dataValue, chartType) {
 
         this.name = name;

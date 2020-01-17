@@ -65,10 +65,10 @@ function updateTeam(matchJson, callback) {
 }
 
 
-app.get('/', (req, res) => {
+app.get('/create-match/:matchNumber', (req, res) => {
     createRecord(
         {
-            matchNumber: 2,
+            matchNumber: req.params.matchNumber,
             won: true,
             robot: {
                 teamNumber: 6429,
