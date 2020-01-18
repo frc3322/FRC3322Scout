@@ -24,7 +24,7 @@ export default class TeamStatistics extends Component {
                     this.setState(prevState => ({
                         auto: [...prevState.auto, element.stats.auto],
                         teleop: [...prevState.teleop, element.stats.teleop],
-                        teleop: [...prevState.teleop, element.stats.teleop],
+                        endgame: [...prevState.endgame, element.stats.endgame],
                     }));
                 }
             });
@@ -55,25 +55,34 @@ export default class TeamStatistics extends Component {
             if (mCollection.length > 0) {
                 
                 let name = "";
-                let value = 0;
                 let n = 0;
+                let data = [];
 
                 for (let i = 0; i < mCollection[0].length; i++) {
                     switch (mCollection[0][i].chartType) {
 
                         case "L":
                             mCollection.forEach(match => {
-                                value += match[i].dataValue;
+                                data.push(match[i].dataValue);
                                 n++;
                                 name = match[i].name;
                             });
-                            output.push(<Row key={i} className="statsRow"><Col xs="6" md="4"><h4>{name}</h4></Col><Col xs="6" md="2"><h4>{(value/n).toFixed(2)}</h4></Col></Row>);
-                            value = 0;
+                            output.push(<Row key={i} className="statsRow"><Col xs="6" md="4"><h4>{name}</h4></Col><Col xs="6" md="2"><h4>{(data.reduce((total, a) => total + a) / n).toFixed(2)}</h4></Col></Row>);
+                            data = [];
                             n = 0;
                             break;
                         
                         case "O":
                             // Do pie chart stuff
+                            mCollection.forEach(match => {
+                                data.push(match[i].dataValue);
+                                n++;
+                                name = match[i].name;
+                            });
+                            output.push(<Row key={i} className="statsRow"><Col xs="6" md="4"><h4>{name}</h4></Col><Col xs="6" md="2"><h4>{(data.reduce((total, a) => total + a) / n * 100).toFixed(2)}%</h4></Col></Row>);
+                            data = [];
+                            n = 0;
+                            break;
                             break;
                     }
                 }
