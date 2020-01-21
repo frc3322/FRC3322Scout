@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Container, Row, Col, Dropdown, DropdownButton } from 'react-bootstrap';
 import './TeamStatistics.css';
 import DropdownItem from 'react-bootstrap/DropdownItem';
+import { Line, Doughnut } from "react-chartjs-2";
 
 export default class TeamStatistics extends Component {
 
@@ -51,46 +52,80 @@ export default class TeamStatistics extends Component {
             default:
                 return ("");
         }
-        if (mCollection != undefined) {
+        if (mCollection !== undefined) {
             if (mCollection.length > 0) {
-                
-                let name = "";
-                let n = 0;
-                let data = [];
+                let itemName = "";
+                let nItems = 0;
+                let outputData = [];
 
                 for (let i = 0; i < mCollection[0].length; i++) {
                     switch (mCollection[0][i].chartType) {
 
                         case "L":
                             mCollection.forEach(match => {
-                                data.push(match[i].dataValue);
-                                n++;
-                                name = match[i].name;
+                                outputData.push(match[i].dataValue);
+                                nItems++;
+                                itemName = match[i].name;
                             });
-                            output.push(<Row key={i} className="statsRow"><Col xs="6" md="4"><h4>{name}</h4></Col><Col xs="6" md="2"><h4>{(data.reduce((total, a) => total + a) / n).toFixed(2)}</h4></Col></Row>);
-                            data = [];
-                            n = 0;
+                            output.push(<Row key={i} className="statsRow"><Col xs="6" md="4"><h4>{itemName}</h4></Col><Col xs="6" md="2"><h4>{(outputData.reduce((total, a) => total + a) / nItems).toFixed(2)}</h4></Col><Col md="6"><Line data={{labels: [...Array(outputData.length).keys()].map(element => "Match " + (element + 1)), datasets: [{
+                                label: itemName,
+                                data: outputData,
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)'
+                                ],
+                                borderWidth: 1,
+                                fill: false
+                            }]}} options={{
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
+                                    }]
+                                }
+                            }} /> </Col></Row>);
+                            outputData = [];
+                            nItems = 0;
                             break;
                         
                         case "O":
                             // Do pie chart stuff
                             mCollection.forEach(match => {
-                                data.push(match[i].dataValue);
-                                n++;
-                                name = match[i].name;
+                                outputData.push(match[i].dataValue);
+                                nItems++;
+                                itemName = match[i].name;
                             });
-                            output.push(<Row key={i} className="statsRow"><Col xs="6" md="4"><h4>{name}</h4></Col><Col xs="6" md="2"><h4>{(data.reduce((total, a) => total + a) / n * 100).toFixed(2)}%</h4></Col></Row>);
-                            data = [];
-                            n = 0;
+                            let doughnutData = [0, 0];
+                            outputData.forEach(element => (element === true) ? doughnutData[0]++ : doughnutData[1]++);
+                            
+                            output.push(<Row key={i} className="statsRow"><Col xs="6" md="4"><h4>{itemName}</h4></Col><Col className="itemCol" xs="6" md="2"><h4>{(outputData.reduce((total, a) => total + a) / nItems * 100).toFixed(2)}%</h4></Col><Col xs="12" md="6"><Doughnut data={{labels: ["Did the thing", "Didn't do the thing"], datasets: [{
+                                data: doughnutData,
+                                backgroundColor: [
+                                    'rgba(66, 245, 135, 0.2)',
+                                    'rgba(255, 99, 132, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(61, 219, 122, 1)',
+                                    'rgba(255, 99, 132, 1)'
+                                ],
+                                borderWidth: 1,
+                                fill: false
+                            }]}} /> </Col></Row>);
+                            outputData = [];
+                            nItems = 0;
                             break;
-                            break;
+                        default:
+                            output.push(<Row key={i}><Col>Unknown data type</Col></Row>);
                     }
                 }
 
                 }
             }
 
-        // 
+        
         return(output);
     }
 
