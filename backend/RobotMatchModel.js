@@ -9,27 +9,13 @@ let RobotMatchModel = new mongoose.Schema({
         allianceColor: String
     },
     stats: {
-        auto: {
-            moved: Boolean,
-            scoredBottom: Number,
-            scoredOuter: Number,
-            scoredInner: Number
-        },
-        teleop: {
-            scoredBottom: Number,
-            scoredOuter: Number,
-            scoredInner: Number,
-            rotationControl: Boolean,
-            positionControl: Boolean
-        },
-        endgame: {
-            didClimb: Boolean,
-            didPark: Boolean
-        }
+        auto: [],
+        teleop: [],
+        endgame: []
     }
 });
 
-RobotMatchModel.index({'matchNumber': 1, 'robot.teamNumber': 1}, { unique: true });
+RobotMatchModel.index({matchNumber: 1, 'robot.teamNumber': 1}, { unique: true });
 
 
 module.exports = mongoose.model('RobotMatch', RobotMatchModel);

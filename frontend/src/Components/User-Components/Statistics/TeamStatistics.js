@@ -2,69 +2,40 @@ import React, { Component } from 'react'
 import { Container, Row, Col, Dropdown, DropdownButton } from 'react-bootstrap';
 import './TeamStatistics.css';
 import DropdownItem from 'react-bootstrap/DropdownItem';
+import StatisticItem from "./StatsticItem";
 
 export default class TeamStatistics extends Component {
 
-    url = "http://localhost:8080";
+    url = "http://" + window.location.hostname + ":8080";
 
     constructor(props) {
         super(props)
         this.state = {
             selected: "",
-            stats: [],
             auto: [],
             teleop: [],
             endgame: []
         }
     }
 
-    schema = {
-        auto: {
-            testStat: Number,
-        },
-        teleop: {
-            testStat: Number,
-        },
-        endgame: {
-            testStat: Number,
-        },
-        
-    }
-
     getMatch = (teamNumber) => {
         fetch(this.url + '/getteamstats/' + teamNumber).then(doc=>doc.json()).then((doc) => {
             doc.forEach(element => {
                 if (element.stats !== undefined) {
-                    this.setState(prevState => ({stats: [...prevState.stats, element.stats]}));
+                    this.setState(prevState => ({
+                        auto: [...prevState.auto, element.stats.auto],
+                        teleop: [...prevState.teleop, element.stats.teleop],
+                        endgame: [...prevState.endgame, element.stats.endgame],
+                    }));
                 }
             });
-
-            //TODO Add verification
-
-            let total, nItems;
-
-            Object.keys(this.schema).forEach(section => {
-                Object.keys(this.schema[section]).forEach(stat => {
-                    total = 0;
-                    nItems = 0;
-                    this.state.stats.forEach(match => {
-                        total += match[section][stat];
-                        nItems++;
-                    });
-
-                    this.setState(prevState => ({[section]: [
-                        ...prevState[section], {[stat]: (total/nItems).toFixed(2)}
-                    ]}));
-                    
-                });
-            });
-            
 
         });
     }
 
     displayEntries = () => {
         let mCollection;
+        let output = [];
         switch (this.state.selected) {
             case "Autonomous":
                 mCollection = this.state.auto;
@@ -79,19 +50,28 @@ export default class TeamStatistics extends Component {
                 break;
             
             default:
-                console.log(this.state.selected);
                 return ("");
         }
-        let output = mCollection.map((element, id) => {
-            let elementKeys = Object.keys(element);
-            if (elementKeys !== undefined){
-                return(
-                <Row key={id} className="statsRow"><Col xs="6" md="4"><h4>{elementKeys[0]}</h4></Col><Col xs="6" md="2"><h4>{element[elementKeys[0]]}</h4></Col></Row>
-                );
-            } else {
-                return "wtf";
+        if (mCollection !== undefined) {
+            if (mCollection.length > 0) {
+                let itemName = "";
+                let outputData = [];
+
+                for (let i = 0; i < mCollection[0].length; i++) {
+                    mCollection.forEach(match => {
+                        outputData.push(match[i].dataValue);
+                        itemName = match[i].name;
+                    });
+                    output.push(<StatisticItem itemName = {itemName} chartType = {mCollection[0][i].chartType} data={outputData} i = {i} />);
+                    // Schema mCollection[0][i]
+                    // match[i]
+                    outputData = [];
+                }
+
+                }
             }
-        });
+
+        
         return(output);
     }
 
@@ -104,7 +84,6 @@ export default class TeamStatistics extends Component {
 
     render() {
         let { teamNumber } = this.props.match.params;  
-        console.log(this.displayEntries());
         return (
         <Container fluid="true">
             <Row style={{paddingTop: '1em'}}>

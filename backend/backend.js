@@ -1,3 +1,4 @@
+let Statistic = require('./Statistic');
 let mongoose = require('mongoose');
 let express = require('express');
 let RobotMatchModel = require("./RobotMatchModel");
@@ -64,10 +65,10 @@ function updateTeam(matchJson, callback) {
 }
 
 
-app.get('/', (req, res) => {
+app.get('/create-match/:matchNumber', (req, res) => {
     createRecord(
         {
-            matchNumber: 1,
+            matchNumber: req.params.matchNumber,
             won: true,
             robot: {
                 teamNumber: 6429,
@@ -75,23 +76,23 @@ app.get('/', (req, res) => {
                 allianceNumber: 1
             },
             stats: {
-                auto: {
-                    moved: Math.random() > 0.5,
-                    scoredBottom: Math.floor(Math.random() * 10),
-                    scoredOuter: Math.floor(Math.random() * 10),
-                    scoredInner: Math.floor(Math.random() * 10)
-                },
-                teleop: {
-                    scoredBottom: Math.floor(Math.random() * 10),
-                    scoredOuter: Math.floor(Math.random() * 10),
-                    scoredInner: Math.floor(Math.random() * 10),
-                    rotationControl: Math.random() > .5,
-                    positionControl: Math.random() > .5
-                },
-                endgame: {
-                    didClimb: Math.random() > .5,
-                    didPark: Math.random() > .5
-                }
+                auto: [
+                    new Statistic("Moved", Math.random() > .5, 'O'),
+                    new Statistic("Scored Bottom", Math.floor(Math.random() * 10), "L"),
+                    new Statistic("Scored Outer", Math.floor(Math.random() * 10), "L"),
+                    new Statistic("Scored Inner", Math.floor(Math.random() * 10), "L")
+                ],
+                teleop: [
+                    new Statistic("Scored Bottom", Math.floor(Math.random() * 10), "L"),
+                    new Statistic("Scored Outer", Math.floor(Math.random() * 10), "L"),
+                    new Statistic("Scored Inner", Math.floor(Math.random() * 10), "L"),
+                    new Statistic("Rotation Control", Math.random() > .5, "O"),
+                    new Statistic("Position Control", Math.random() > .5, "O")
+                ],
+                endgame: [
+                    new Statistic("Did Climb", Math.random() > .5, "O"),
+                    new Statistic("Did Park", Math.random() > .5, "O")
+                ]
             }
         }
     )
