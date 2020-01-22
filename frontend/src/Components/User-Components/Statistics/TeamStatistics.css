@@ -6,3 +6,16 @@
 .statsRow h4{
     font-weight: normal;
 }
+
+.statsRow {
+    cursor: pointer;
+    padding: 1.5em 0;
+    box-shadow: 0 1px 8px 0 rgba(37,37,37,0.22);
+    margin: 1em 0;
+    border-radius: 0.75em;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+}
