@@ -1,4 +1,4 @@
-## welcome to eagle imperium's scouting app
+## Welcome to Eagle Imperium's Scouting App
 
 it is currently in progress including this readme
 the remainder of this readme.md is just a note to my self
