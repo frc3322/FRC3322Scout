@@ -11,7 +11,7 @@ export default class DataEntry extends React.Component {
 
     teamNumber = 0;
     componentDidMount() {
-        let url = window.location.host + "/:8080/getteaminmatch/"+parseInt(this.props.match.params.teamNumber)+"/"+parseInt(this.props.matchNumber);
+        let url = window.location.host + "/:8080/getallscoutentries/0?teamNumber=" + parseInt(this.props.match.params.teamNumber) + "&matchNumber=" + parseInt(this.props.matchNumber);
     }
     
 
