@@ -62,9 +62,7 @@ export default class TeamStatistics extends Component {
                         outputData.push(match[i].dataValue);
                         itemName = match[i].name;
                     });
-                    output.push(<StatisticItem itemName = {itemName} chartType = {mCollection[0][i].chartType} data={outputData} i = {i} />);
-                    // Schema mCollection[0][i]
-                    // match[i]
+                    output.push(<StatisticItem key={output.length} itemName = {itemName} chartType = {mCollection[0][i].chartType} data={outputData} />);
                     outputData = [];
                 }
 

@@ -16,11 +16,11 @@ export default class StatsticItem extends React.Component {
     }
 
     generate = () => {
-        let { itemName, chartType, data, i } = this.props;
+        let { itemName, chartType, data } = this.props;
         let nItems = data.length;
         switch (chartType) {
             case "L":
-                return(<Row key={i} className="statsRow" onClick={this.toggleChart}><Col xs="6" md="4"><h4>{itemName}</h4></Col><Col xs="6" md="2"><h4>{(data.reduce((total, a) => total + a) / nItems).toFixed(2)}</h4></Col><Col md="6">{(this.state.chartShown) ? <Line data={{labels: [...Array(data.length).keys()].map(element => "Match " + (element + 1)), datasets: [{
+                return(<Row className="statsRow" onClick={this.toggleChart}><Col xs="6" md="4"><h4>{itemName}</h4></Col><Col xs="6" md="2"><h4>{(data.reduce((total, a) => total + a) / nItems).toFixed(2)}</h4></Col><Col md="6">{(this.state.chartShown) ? <Line data={{labels: [...Array(data.length).keys()].map(element => "Match " + (element + 1)), datasets: [{
                     label: itemName,
                     data: data,
                     backgroundColor: [
@@ -46,7 +46,7 @@ export default class StatsticItem extends React.Component {
                 let doughnutData = [0, 0];
                 data.forEach(element => (element === true) ? doughnutData[0]++ : doughnutData[1]++);
                 
-                return (<Row key={i} className="statsRow" onClick={this.toggleChart}><Col xs="6" md="4"><h4>{itemName}</h4></Col><Col className="itemCol" xs="6" md="2"><h4>{(data.reduce((total, a) => total + a) / nItems * 100).toFixed(2)}%</h4></Col><Col xs="12" md="6"> {(this.state.chartShown) ? <Doughnut data={{labels: ["Did the thing", "Didn't do the thing"], datasets: [{
+                return (<Row className="statsRow" onClick={this.toggleChart}><Col xs="6" md="4"><h4>{itemName}</h4></Col><Col className="itemCol" xs="6" md="2"><h4>{(data.reduce((total, a) => total + a) / nItems * 100).toFixed(2)}%</h4></Col><Col xs="12" md="6"> {(this.state.chartShown) ? <Doughnut data={{labels: ["Did the thing", "Didn't do the thing"], datasets: [{
                     data: doughnutData,
                     backgroundColor: [
                         'rgba(66, 245, 135, 0.2)',
@@ -60,7 +60,7 @@ export default class StatsticItem extends React.Component {
                     fill: false
         }]}} /> : ""} </Col></Row>);
             default:
-                return (<Row key={i}><Col>Unknown data type</Col></Row>);
+                return (<Row><Col>Unknown data type</Col></Row>);
         }
     }
 
@@ -73,5 +73,4 @@ StatsticItem.propTypes = {
     itemName: PropTypes.string.isRequired,
     outputData: PropTypes.array.isRequired,
     chartType: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired
 }

@@ -5,6 +5,7 @@ import SearchRoot from './Components/User-Components/SearchRoot';
 import TeamStatistics from './Components/User-Components/Statistics/TeamStatistics';
 import { Container, Row, Col } from 'react-bootstrap';
 import SelectMatch from './Components/Scouter-Components/SelectMatch';
+import DataEntry from './Components/Scouter-Components/DataEntry';
 
 class App extends React.Component {
   render() {
@@ -41,11 +42,11 @@ class App extends React.Component {
                 </Route>
                 <Route path="/teams/:teamNumber" component={TeamStatistics}>
                 </Route>
+      
 
 
-
-              <Route path="/data-entry" component={SelectMatch}></Route>
-                
+              <Route exact path="/data-entry" component={SelectMatch}></Route>
+              <Route exact path="/data-entry/:teamNumber/:matchNumber" component={DataEntry}></Route>
               </Switch>
           </Row>
 
