@@ -27,7 +27,7 @@ class TeamInMatch extends Component {
     }
 
     getMatch = (teamNumber, matchNumber) => {
-        fetch(this.url + '/getteaminmatch/' + teamNumber +'/' + matchNumber, {
+        fetch(this.url + '/getallscoutentries/0?teamNumber=' + teamNumber +'&matchNumber=' + matchNumber, {
         }).then(doc=>doc.json()).then(doc => this.props.sendMatches(doc));
     }
     render() {

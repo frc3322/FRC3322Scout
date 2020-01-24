@@ -100,25 +100,13 @@ app.get('/create-match/:matchNumber', (req, res) => {
     res.send("I did the function!");
 });
 
-app.get('/getteaminmatch/:teamNumber/:matchNumber', (req, res)=>{
-        findTeamByMatchNumber(req.params.teamNumber, req.params.matchNumber).then(doc => res.send(doc));
-});
-
-app.get('/getallteamsinmatch/:matchNumber', (req, res)=>{
-    findTeamsInMatch(req.params.matchNumber).then(doc => res.send(doc));
-});
-
-app.get('/getteamstats/:teamNumber', (req, res)=>{
-    findTeamMatches(req.params.teamNumber).then(doc => res.send(doc));
-});
-
 app.get('/getallscoutentries/:skip', (req, res) => {
     //TODO Implement Search By Last ID instead. The .skip method won't scale.
     let searchParams = {}
-    if (req.query.teamNumber !== '') {
+    if (req.query.teamNumber !== '' && req.query.teamNumber !== undefined) {
         searchParams['robot.teamNumber'] = req.query.teamNumber;
     }
-    if (req.query.matchNumber !== '') {
+    if (req.query.matchNumber !== '' && req.query.matchNumber !== undefined) {
         searchParams['matchNumber'] = req.query.matchNumber;
     }
     
