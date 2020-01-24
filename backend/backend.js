@@ -121,7 +121,6 @@ app.get('/getallscoutentries/:skip', (req, res) => {
     if (req.query.matchNumber !== '') {
         searchParams['matchNumber'] = req.query.matchNumber;
     }
-    console.log(searchParams);
     
     let query = (!req.params.skip.isNaN) ? RobotMatchModel.find(searchParams).limit(10).skip(parseInt(req.params.skip)) : RobotMatchModel.find(searchParams).limit(10);
     

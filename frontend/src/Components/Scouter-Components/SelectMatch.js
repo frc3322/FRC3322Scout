@@ -51,7 +51,7 @@ export default class SelectMatch extends Component {
     
     render() {
         return (
-            <Container style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+            <Container className="searchContainer" style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
                 <Row style={{width: "100%"}}>
                     <Col xs="0" md="2" />
                     <Col xs="6" md="3">
