@@ -19,7 +19,7 @@ export default class TeamStatistics extends Component {
     }
 
     getMatch = (teamNumber) => {
-        fetch(this.url + '/getteamstats/' + teamNumber).then(doc=>doc.json()).then((doc) => {
+        fetch(this.url + '/getallscoutentries/0?teamNumber=' + teamNumber).then(doc=>doc.json()).then((doc) => {
             doc.forEach(element => {
                 if (element.stats !== undefined) {
                     this.setState(prevState => ({
