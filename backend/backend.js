@@ -103,10 +103,10 @@ app.get('/create-match/:matchNumber', (req, res) => {
 app.get('/getallscoutentries/:skip', (req, res) => {
     //TODO Implement Search By Last ID instead. The .skip method won't scale.
     let searchParams = {}
-    if (req.query.teamNumber !== '') {
+    if (req.query.teamNumber !== '' && req.query.teamNumber !== undefined) {
         searchParams['robot.teamNumber'] = req.query.teamNumber;
     }
-    if (req.query.matchNumber !== '') {
+    if (req.query.matchNumber !== '' && req.query.matchNumber !== undefined) {
         searchParams['matchNumber'] = req.query.matchNumber;
     }
     
