@@ -1,10 +1,10 @@
-input {
+.searchContainer input {
     border-radius: 0.5em;
     border: rgba(0, 0, 0, 0.2) 1px solid;
     padding: 0.5em;
 }
 
-input:focus {
+.searchContainer input:focus {
     animation-duration: 0.5s;
     animation-name: input-focus;
     transform: scale(1.03);

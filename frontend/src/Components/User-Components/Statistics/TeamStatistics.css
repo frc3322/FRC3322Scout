@@ -19,3 +19,8 @@
     display: flex;
     align-items: center;
 }
+
+.dataEntryNumInput {
+    text-align: center;
+    font-size: 2em;
+}
