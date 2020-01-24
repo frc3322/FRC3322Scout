@@ -32,7 +32,7 @@ class ChildMatchComponent extends React.Component {
                             <Col className="mx-auto">
                                 <div style={{display: 'flex', justifyContent: "center"}}>
                                     <Link to={"/teams/" + this.state.match.robot.teamNumber}>
-                                        <Button style={{marginRight: '1em'}}>Team Statistiics</Button>
+                                        <Button style={{marginRight: '1em'}}>Team Statisics</Button>
                                     </Link>
                                     <Button>Match Performance</Button>
                                 </div>

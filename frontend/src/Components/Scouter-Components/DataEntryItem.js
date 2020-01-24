@@ -9,7 +9,8 @@ export default class DataEntryItem extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {itemValue: 0}
+        console.log(props)
+        this.state = {itemValue: props.item.dataValue};
     }
 
     changeState(type) {
@@ -30,19 +31,25 @@ export default class DataEntryItem extends React.Component {
     }
 
     giveComponent = () => {
-        let { itemName } = this.props;
+        let { item } = this.props;
         let { itemValue } = this.state;
-        return (<Container className="dataEntryItem">
-            <Row><Col xs="12" style={{textAlign: "center"}}><h3> {itemName} </h3></Col></Row>
-            <Row><Col xs="1" md="2"/> 
-                <Col xs="3" md="2" className="colCentered"><Button className="dataEntryButton" onClick={this.changeState.bind(this, DECREMENT)}>-</Button> </Col>
-                <Col xs="4" md="4" className="colCentered"><span className="dataEntryNumInput">{itemValue}</span></Col>
-                <Col xs="3" md="2" className="colCentered"><Button className="dataEntryButton" onClick={this.changeState.bind(this, INCREMENT)}>+</Button> </Col>
-                <Col xs="1" md="2"/> 
-            </Row>
-            
-            
-            </Container>);
+        switch (item.chartType) {
+            case "L":
+            return (<Container className="dataEntryItem">
+                <Row><Col xs="12" style={{textAlign: "center"}}><h3> {item.name} </h3></Col></Row>
+                <Row><Col xs="1" md="2"/> 
+                    <Col xs="3" md="2" className="colCentered"><Button className="dataEntryButton" onClick={this.changeState.bind(this, DECREMENT)}>-</Button> </Col>
+                    <Col xs="4" md="4" className="colCentered"><span className="dataEntryNumInput">{itemValue}</span></Col>
+                    <Col xs="3" md="2" className="colCentered"><Button className="dataEntryButton" onClick={this.changeState.bind(this, INCREMENT)}>+</Button> </Col>
+                    <Col xs="1" md="2"/> 
+                </Row>
+                
+                
+                </Container>);
+                break;
+            default:
+                return "";
+        }
     }
 
     render() {
@@ -53,5 +60,5 @@ export default class DataEntryItem extends React.Component {
 }
 
 DataEntryItem.propTypes = {
-    itemName: PropTypes.string.isRequired
+    item: PropTypes.object.isRequired
 }
