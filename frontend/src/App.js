@@ -6,6 +6,8 @@ import TeamStatistics from './Components/User-Components/Statistics/TeamStatisti
 import { Container, Row, Col } from 'react-bootstrap';
 import SelectMatch from './Components/Scouter-Components/SelectMatch';
 import DataEntry from './Components/Scouter-Components/DataEntry';
+import TestComponent from './Testing/TestComponent';
+
 
 class App extends React.Component {
   render() {
@@ -41,16 +43,18 @@ class App extends React.Component {
                   <SearchRoot />
                 </Route>
                 <Route path="/teams/:teamNumber" component={TeamStatistics}>
-                </Route>
-      
+                </Route>      
 
 
               <Route exact path="/data-entry" component={SelectMatch}></Route>
               <Route exact path="/data-entry/:teamNumber/:matchNumber" component={DataEntry}></Route>
+              <Route exact path="/test" component={TestComponent}></Route>
               </Switch>
           </Row>
 
           </Container>
+
+
         </Router>
     )
   }

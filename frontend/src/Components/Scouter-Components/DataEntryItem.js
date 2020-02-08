@@ -9,20 +9,20 @@ export default class DataEntryItem extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log(props)
         this.state = {itemValue: props.item.dataValue};
+        
     }
 
     changeState(type) {
         switch (type) {
             case DECREMENT:
                 if (this.state.itemValue > 0) {
-                    this.setState((prevState)=>{return {itemValue: prevState.itemValue - 1}});
+                    this.setState((prevState)=>{return {itemValue: prevState.itemValue - 1}}, () => {this.props.update(this.state.itemValue)});
                 }
                 break;
             case INCREMENT:
                 if (this.state.itemValue < 100) {
-                    this.setState((prevState)=>{return {itemValue: prevState.itemValue + 1}});
+                    this.setState((prevState)=>{return {itemValue: prevState.itemValue + 1}}, () => {this.props.update(this.state.itemValue)});
                 }
                 break;
             default:
@@ -60,5 +60,7 @@ export default class DataEntryItem extends React.Component {
 }
 
 DataEntryItem.propTypes = {
-    item: PropTypes.object.isRequired
+    item: PropTypes.object.isRequired,
+    index: PropTypes.number.isRequired,
+    update: PropTypes.func.isRequired
 }

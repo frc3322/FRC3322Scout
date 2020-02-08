@@ -1,28 +1,37 @@
 let Statistic = require('./Statistic');
-let mongoose = require('mongoose');
 let express = require('express');
-let RobotMatchModel = require("./RobotMatchModel");
 let app = express();
 let bodyParser = require('body-parser');
 let http = require('http');
-let cors = require('cors');
 let server = http.createServer(app);
+let axios = require('axios');
+let admin = require("firebase-admin");
 
 app.use(bodyParser.json());
-app.use(cors());
 
-// Connect to database.
-mongoose.connect("mongodb://localhost:27017/scout").then(()=>{
-    console.log("Connected")
-    })
-    .catch((error)=>{
-        console.log("Not connected. Error: " + error);
-    });
+
+
+// Fetch the service account key JSON file contents
+var serviceAccount = require("./scout-93855-firebase-adminsdk-nnjjl-9d3e23cd5a.json");
+
+// Initialize the app with a service account, granting admin privileges
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+let db = admin.firestore();
+
+const scoutMatches = db.collection('scoutmatches');
+
+scoutMatches.doc({thing: "hi", anotherthing: "aaaa"}).set({
+    hi: "jonathan"
+});
+
 
 
 /*
 {
-        matchNumber: incJson.matchNumber,
+        matchNumber: `i`ncJson.matchNumber,
         won: incJson.won,
         robot: {
             teamNumber: incJson.robot.teamNumber,
@@ -36,34 +45,19 @@ mongoose.connect("mongodb://localhost:27017/scout").then(()=>{
         }
     }
 */
+
+
 function createRecord(incJson) {
     new RobotMatchModel(incJson).save().catch(() => {
         console.log("Something went wrong while saving. Possible duplicate?")
     });
 }
 
-function findTeamByMatchNumber(teamNumber, matchNumber) {
-    return RobotMatchModel.find({'robot.teamNumber': teamNumber, matchNumber: matchNumber});
-}
-
-function findTeamsInMatch(matchNumber) {
-    return RobotMatchModel.find({matchNumber: matchNumber});
-}
-
-function findTeamMatches(teamNumber) {
-    return RobotMatchModel.find({'robot.teamNumber': teamNumber});
-}
-
-
-function updateTeam(matchJson, callback) {
-    RobotMatchModel.findOneAndUpdate({
-        matchNumber: matchJson.matchNumber,
-        'robot.teamNumber': matchJson.robot.teamNumber
-    }, matchJson, {upsert: true}, err => {
-        callback(err)
+function updateTeam(query, stats) {
+    return new Promise ((resolve, reject) => {
+        RobotMatchModel.findOneAndUpdate(query, {"$set": {stats}}, (err, doc) => {(err) ? reject(err) : resolve(doc)});
     });
 }
-
 
 app.get('/create-match/:matchNumber', (req, res) => {
     createRecord(
@@ -113,6 +107,16 @@ app.get('/getallscoutentries/:skip', (req, res) => {
     let query = (!req.params.skip.isNaN) ? RobotMatchModel.find(searchParams).limit(10).skip(parseInt(req.params.skip)) : RobotMatchModel.find(searchParams).limit(10);
     
     return query.then(doc => res.send(doc)).catch(err=>console.log(err));
+});
+
+function populateMatches(eventKey) {
+    axios.get("https://www.thebluealliance.com/api/v3/event//matches/simple", {"X-TBA-Auth-Key": "84zuY6dS8oOnAyKc09C59oxVfuOwscn6Ak6EXrChraCjY6DNmdFgJOSXX0lLBfMd"})
+}
+
+app.post('/updateteam', (req, res) => {
+    let { matchNumber, teamNumber, stats } = req.body;
+    let query = {matchNumber, "robot.teamNumber": teamNumber};
+    updateTeam(query, stats).then(()=>res.sendStatus(200)).catch(()=>res.send(400));
 });
 
 server.listen(8080);

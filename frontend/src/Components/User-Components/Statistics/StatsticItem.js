@@ -18,9 +18,11 @@ export default class StatsticItem extends React.Component {
     generate = () => {
         let { itemName, chartType, data } = this.props;
         let nItems = data.length;
+        console.log(data);
+        let labels = data.map(element => element.matchNumber)
         switch (chartType) {
             case "L":
-                return(<Row className="statsRow" onClick={this.toggleChart}><Col xs="6" md="4"><h4>{itemName}</h4></Col><Col xs="6" md="2"><h4>{(data.reduce((total, a) => total + a) / nItems).toFixed(2)}</h4></Col><Col md="6">{(this.state.chartShown) ? <Line data={{labels: [...Array(data.length).keys()].map(element => "Match " + (element + 1)), datasets: [{
+                return(<Row className="statsRow" onClick={this.toggleChart}><Col xs="6" md="4"><h4>{itemName}</h4></Col><Col xs="6" md="2"><h4>{(data.reduce((total, a) => total + a) / nItems).toFixed(2)}</h4></Col><Col md="6">{(this.state.chartShown) ? <Line data={{labels, datasets: [{
                     label: itemName,
                     data: data,
                     backgroundColor: [
