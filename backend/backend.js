@@ -23,7 +23,7 @@ let db = admin.firestore();
 
 const scoutMatches = db.collection('scoutmatches');
 
-scoutMatches.doc({thing: "hi", anotherthing: "aaaa"}).set({
+scoutMatches.doc({thing: }).set({
     hi: "jonathan"
 });
 
