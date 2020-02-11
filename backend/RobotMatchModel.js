@@ -15,7 +15,7 @@ let RobotMatchModel = new mongoose.Schema({
     }
 });
 
-RobotMatchModel.index({matchNumber: 1, 'robot.teamNumber': 1}, { unique: true });
+RobotMatchModel.index({matchNumber: 1, 'teamNumber': 1}, { unique: true });
 
 
 module.exports = mongoose.model('RobotMatch', RobotMatchModel);
