@@ -24,7 +24,7 @@ export default class SelectMatch extends Component {
             let newMatches = [];
             
             doc.forEach(element => {
-                newMatches.push(<Row className="scoutEntryItem" key={"t" + element.robot.teamNumber + "m" + element.matchNumber}><MatchItem teamNumber={element.robot.teamNumber} matchNumber={element.matchNumber} key={this.state.itemNum}></MatchItem></Row>)
+                newMatches.push(<Row className="scoutEntryItem" key={"t" + element.teamNumber + "m" + element.matchNumber}><MatchItem teamNumber={element.teamNumber} matchNumber={element.matchNumber} key={this.state.itemNum}></MatchItem></Row>)
                 itemsGotten++;
             });
 

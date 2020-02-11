@@ -28,9 +28,9 @@ const scoutMatches = db.collection('scoutmatches');
         matchNumber: `i`ncJson.matchNumber,
         won: incJson.won,
         robot: {
-            teamNumber: incJson.robot.teamNumber,
-            allianceColor: incJson.robot.allianceColor,
-            allianceNumber: incJson.robot.allianceNumber
+            teamNumber: incJson.teamNumber,
+            allianceColor: incJson.allianceColor,
+            allianceNumber: incJson.allianceNumber
         },
         stats: {
             auto: {},
@@ -42,7 +42,7 @@ const scoutMatches = db.collection('scoutmatches');
 
 
 function createRecord(incJson) {
-    scoutMatches.doc("t"+incJson.robot.teamNumber+"m"+incJson.matchNumber).set(JSON.parse(JSON.stringify(incJson)));
+    scoutMatches.doc("t"+incJson.teamNumber+"m"+incJson.matchNumber).set(JSON.parse(JSON.stringify(incJson)));
 }
 
 app.get('/create-match/:matchNumber', (req, res) => {
@@ -109,7 +109,7 @@ function populateMatches(eventKey) {
 
 app.post('/updateteam', (req, res) => {
     let { matchNumber, teamNumber, stats } = req.body;
-    let query = {matchNumber, "robot.teamNumber": teamNumber};
+    let query = {matchNumber, "teamNumber": teamNumber};
     updateTeam(query, stats).then(()=>res.sendStatus(200)).catch(()=>res.send(400));
 });
 
