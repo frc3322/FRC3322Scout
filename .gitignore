@@ -35,3 +35,6 @@ Archive/*
 # node modules
 frontend/node_modules
 backend/node_modules
+
+# super secret password file
+backend/firebasekey.json

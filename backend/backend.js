@@ -81,12 +81,11 @@ app.get('/create-match/:matchNumber', (req, res) => {
 app.get('/getallscoutentries/:skip', (req, res) => {
     //TODO Implement Search By Last ID instead. The .skip method won't scale.
     let search = scoutMatches;
-    if (req.query.teamNumber !== '' && req.query.teamNumber !== undefined) {
+    if (Number.isInteger(req.query.teamNumber)) {
         search = search.where('teamNumber', '==', req.query.teamNumber);
     }
-    if (req.query.matchNumber !== '' && req.query.matchNumber !== undefined) {
-        //search = search.where('matchNumber', '==', req.query.matchNumber);
-
+    if (Number.isInteger(req.query.matchNumber)) {
+        search = search.where('matchNumber', '==', req.query.matchNumber);
     }
     search.get().then(snapshot => {
         if (snapshot.empty) {
