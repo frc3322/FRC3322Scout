@@ -6,13 +6,14 @@ let http = require('http');
 let server = http.createServer(app);
 let axios = require('axios');
 let admin = require("firebase-admin");
+let cors = require('cors');
 
 app.use(bodyParser.json());
-
+app.use(cors());
 
 
 // Fetch the service account key JSON file contents
-var serviceAccount = require("./scout-93855-firebase-adminsdk-nnjjl-9d3e23cd5a.json");
+var serviceAccount = require("./firebasekey.json");
 
 // Initialize the app with a service account, granting admin privileges
 admin.initializeApp({
@@ -79,7 +80,6 @@ app.get('/create-match/:matchNumber', (req, res) => {
 });
 
 app.get('/getallscoutentries/:skip', (req, res) => {
-    //TODO Implement Search By Last ID instead. The .skip method won't scale.
     let search = scoutMatches;
     if (Number.isInteger(req.query.teamNumber)) {
         search = search.where('teamNumber', '==', req.query.teamNumber);
@@ -92,10 +92,11 @@ app.get('/getallscoutentries/:skip', (req, res) => {
           console.log('No matching documents.');
           return;
         }  
-    
+        let results = [];
         snapshot.forEach(doc => {
-          console.log(doc.id, '=>', doc.data());
+            results.push(doc.data());
         });
+        res.send(results);
       })
       .catch(err => {
         console.log('Error getting documents', err);
@@ -109,8 +110,7 @@ function populateMatches(eventKey) {
 
 app.post('/updateteam', (req, res) => {
     let { matchNumber, teamNumber, stats } = req.body;
-    let query = {matchNumber, "teamNumber": teamNumber};
-    updateTeam(query, stats).then(()=>res.sendStatus(200)).catch(()=>res.send(400));
+    scoutMatches.doc('t'+teamNumber+'m'+matchNumber).update({stats}).then(()=>res.sendStatus(200));
 });
 
 server.listen(8080);

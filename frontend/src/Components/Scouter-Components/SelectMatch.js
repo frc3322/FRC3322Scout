@@ -22,7 +22,7 @@ export default class SelectMatch extends Component {
         fetch(this.url + '/getallscoutentries/' + this.state.itemNum + "?teamNumber=" + teamNumber + "&matchNumber=" + matchNumber).then(doc => doc.json()).then(doc => {
             let itemsGotten = 0;
             let newMatches = [];
-            
+            console.log(doc);
             doc.forEach(element => {
                 newMatches.push(<Row className="scoutEntryItem" key={"t" + element.teamNumber + "m" + element.matchNumber}><MatchItem teamNumber={element.teamNumber} matchNumber={element.matchNumber} key={this.state.itemNum}></MatchItem></Row>)
                 itemsGotten++;
