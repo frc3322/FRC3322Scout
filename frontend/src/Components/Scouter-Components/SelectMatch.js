@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Container, Row, Col, Button, Modal } from 'react-bootstrap'
 import MatchItem from './MatchItem'
+import axios from 'axios'
 import './SelectMatch.css'
 
 export default class SelectMatch extends Component {
@@ -13,12 +14,10 @@ export default class SelectMatch extends Component {
             searchTeamNumber: '',
             searchMatchNumber: '',
             newMatchShown: false,
-            newMatch: {
-                teamNumber: 0,
-                matchNumber: 0,
-                allianceNumber: 0,
-                allianceColor: "blue"
-            }
+            teamNumber: 0,
+            matchNumber: 0,
+            allianceNumber: 0,
+            allianceColor: "blue"
         }
     }
 
@@ -57,7 +56,16 @@ export default class SelectMatch extends Component {
     handleClosed = () => {
         this.setState({newMatchShown: false});
     }
+
+    formOnChanged = (e) => {
+        this.setState({[e.target.name]: e.target.value});
+    }
     
+    createMatch = () => {
+        let {teamNumber, matchNumber, allianceNumber, allianceColor} = this.state;
+        axios.post(this.url + '/create-match', {teamNumber, matchNumber, allianceColor, allianceNumber}).then(this.handleClosed());
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -78,18 +86,23 @@ export default class SelectMatch extends Component {
                 
                 <Modal show={this.state.newMatchShown}>
                 <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
+                <Modal.Title>Create Match</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="searchContainer">
-                    <input placeholder="Team Number" />
-                    <input placeholder="Match Number" />
-                    <input placeholder="Alliance Number" />
+                <Modal.Body style={{display: 'flex', flexDirection:"column"}} className="searchContainer">
+                    <input name="teamNumber" onChange={this.formOnChanged} placeholder="Team Number" />
+                    <input name="matchNumber" onChange={this.formOnChanged} placeholder="Match Number" />
+                    <label>Alliance Color</label>
+                    <select name="allianceColor" onChange={this.formOnChanged} >
+                        <option value="red">Red</option>
+                        <option value="blue">Blue</option>
+                    </select>
+                    <input name="allianceNumber" onChange={this.formOnChanged} placeholder="Alliance Number" />
                 </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={this.handleClosed}>
                     Close
                 </Button>
-                <Button variant="primary">
+                <Button variant="primary" onClick={this.createMatch}>
                     Save Changes
                 </Button>
                 </Modal.Footer>

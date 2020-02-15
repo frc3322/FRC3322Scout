@@ -46,15 +46,15 @@ function createRecord(incJson) {
     scoutMatches.doc("t"+incJson.teamNumber+"m"+incJson.matchNumber).set(JSON.parse(JSON.stringify(incJson)));
 }
 
-app.get('/create-match/:teamNumber/:matchNumber', (req, res) => {
-    if (req.params.teamNumber != undefined &&  parseInt(req.params.teamNumber) != NaN && req.params.teamNumber != undefined && parseInt(req.params.matchNumber) != NaN) {
+app.post('/create-match/', (req, res) => {
+    if (req.body.teamNumber != undefined &&  parseInt(req.body.teamNumber) != NaN && req.body.teamNumber != undefined && parseInt(req.body.matchNumber) != NaN) {
     createRecord(
         {
-            matchNumber: parseInt(req.params.matchNumber),
+            matchNumber: parseInt(req.body.matchNumber),
             won: false,
-            teamNumber: parseInt(req.params.teamNumber),
-            allianceColor: "red",
-            allianceNumber: 1,
+            teamNumber: parseInt(req.body.teamNumber),
+            allianceColor: req.body.allianceColor,
+            allianceNumber: req.body.allianceNumber,
             stats: {
                 auto: [
                     new Statistic("Moved", Math.random() > .5, 'O'),
