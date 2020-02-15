@@ -18,7 +18,6 @@ export default class StatsticItem extends React.Component {
     generate = () => {
         let { itemName, chartType, data } = this.props;
         let nItems = data.length;
-        console.log(data);
         let labels = data.map(element => element.matchNumber)
         switch (chartType) {
             case "L":

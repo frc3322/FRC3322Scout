@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Button } from 'react-bootstrap'
+import { Container, Row, Col, Button, Modal } from 'react-bootstrap'
 import MatchItem from './MatchItem'
 import './SelectMatch.css'
 
@@ -11,7 +11,14 @@ export default class SelectMatch extends Component {
             matches: [],
             itemNum: 0,
             searchTeamNumber: '',
-            searchMatchNumber: ''
+            searchMatchNumber: '',
+            newMatchShown: false,
+            newMatch: {
+                teamNumber: 0,
+                matchNumber: 0,
+                allianceNumber: 0,
+                allianceColor: "blue"
+            }
         }
     }
 
@@ -46,21 +53,44 @@ export default class SelectMatch extends Component {
     componentDidMount() {
         this.fetchEntries(this.state.searchTeamNumber, this.state.searchTeamNumber);
     }
+
+    handleClosed = () => {
+        this.setState({newMatchShown: false});
+    }
     
     render() {
         return (
-            <Container className="searchContainer" style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-                <Row style={{width: "100%"}}>
-                    <Col xs="0" md="2" />
-                    <Col xs="6" md="3">
-                    <input style={{width: "100%", padding: "1em 0.5em"}} placeholder="Team Number" name="searchTeamNumber" onChange={this.searchOnChange}></input>
-                    </Col>
-                    <Col xs="6" md="3"><input style={{width: "100%", padding: "1em 0.5em"}} placeholder="Match Number" name="searchMatchNumber" onChange={this.searchOnChange}></input></Col>
-                    <Col xs="12" md="2" style={{display: "flex"}}><Button style={{width: "100%"}} onClick={this.clearDataThenFetch.bind(this, this.state.searchTeamNumber, this.state.searchMatchNumber, true)}>Search Entries</Button></Col>
-                    <Col xs="0" md="2"/>
-                </Row>
-                {this.state.matches}
-            </Container>
+            <React.Fragment>
+                <Container className="searchContainer" style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+                    <Row style={{width: "100%"}}>
+                        <Col xs="0" md="2" />
+                        <Col xs="6" md="3">
+                        <input style={{width: "100%", padding: "1em 0.5em"}} placeholder="Team Number" name="searchTeamNumber" onChange={this.searchOnChange}></input>
+                        </Col>
+                        <Col xs="6" md="3"><input style={{width: "100%", padding: "1em 0.5em"}} placeholder="Match Number" name="searchMatchNumber" onChange={this.searchOnChange}></input></Col>
+                        <Col xs="12" md="2" style={{display: "flex"}}><Button style={{width: "100%"}} onClick={this.clearDataThenFetch.bind(this, this.state.searchTeamNumber, this.state.searchMatchNumber, true)}>Search Entries</Button></Col>
+                        <Col xs="0" md="2"/>
+                    </Row>
+                    <Row><Col xs="12"><Button onClick={()=>this.setState({newMatchShown: true})} style={{width: "100%"}}>Add Match</Button></Col></Row>
+                    <Modal>Test</Modal>
+                    {this.state.matches}
+                </Container>
+                
+                <Modal show={this.state.newMatchShown}>
+                <Modal.Header closeButton>
+                <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body><input placeholder="Team Number" /></Modal.Body>
+                <Modal.Footer>
+                <Button variant="secondary" onClick={this.handleClosed}>
+                    Close
+                </Button>
+                <Button variant="primary" onClick={}>
+                    Save Changes
+                </Button>
+                </Modal.Footer>
+            </Modal>
+            </React.Fragment>
         )
     }
 }
