@@ -57,21 +57,21 @@ app.post('/create-match/', (req, res) => {
             allianceNumber: req.body.allianceNumber,
             stats: {
                 auto: [
-                    new Statistics("Sandstorm bonus", false, "O"),
-                    new Statistics("Hatches", 0, "L"),
-                    new Statistics("Cargo", 0, "L"),
-                    new Statistics("Complete rocket", false, "O")
+                    new Statistic("Sandstorm bonus", false, "O"),
+                    new Statistic("Hatches", 0, "L"),
+                    new Statistic("Cargo", 0, "L"),
+                    new Statistic("Complete rocket", false, "O")
                 ],
                 teleop:[
-                    new Statistics("Hatches", 0, "L"),
-                    new Statistics("Cargo", 0, "L"),
-                    new Statistics("Complete rocket", false, "O")
+                    new Statistic("Hatches", 0, "L"),
+                    new Statistic("Cargo", 0, "L"),
+                    new Statistic("Complete rocket", false, "O")
                 ],
                 endgame:[
-                    new Statistics("Hatches", 0, "L"),
-                    new Statistics("Cargo", 0, "L"),
-                    new Statistics("Complete rocket", false, "O"),
-                    new Statistics("Hab bonus", 0, "O")
+                    new Statistic("Hatches", 0, "L"),
+                    new Statistic("Cargo", 0, "L"),
+                    new Statistic("Complete rocket", false, "O"),
+                    new Statistic("Hab bofnus", false, "O")
                 ]
             }
         }

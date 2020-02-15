@@ -17,6 +17,8 @@ export default class ToggleItem extends React.Component {
     giveComponent = () => {
         let { item } = this.props;
         let { itemValue } = this.state;
+        console.log(itemValue);
+        
         switch (item.chartType) {
             case "O":
             return (<Container className="dataEntryItem">
@@ -24,7 +26,7 @@ export default class ToggleItem extends React.Component {
                     <Col xs="1" md="2"/> 
                     <Col xs="3" md="2" className="colCentered"><h3> {item.name}  </h3></Col>
                     <Col xs="4" md="4" />
-                    <Col xs="3" md="2" className="colCentered"><Switch checked={this.state.itemValue} onClick={this.changeState} color="primary" /></Col>
+                    <Col xs="3" md="2" className="colCentered"><Switch checked={itemValue} onClick={this.changeState} color="primary" /></Col>
                     <Col xs="1" md="2"/> 
                     </Row>
                 
