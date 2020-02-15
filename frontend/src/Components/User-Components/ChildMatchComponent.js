@@ -22,7 +22,7 @@ class ChildMatchComponent extends React.Component {
                                 <h4> Match {match.matchNumber}</h4>
                             </Col>
                             <Col xs="4" style={{textAlign: 'center'}}>
-                                <h4>Team {match.robot.teamNumber}</h4>
+                                <h4>Team {match.teamNumber}</h4>
                             </Col>
                             <Col xs="4" style={{textAlign: 'end'}}>
                             <h4 style={{color: (match.won === true) ? "green": "red"}}>{(match.won === true) ? "Won": "Lost"}</h4>
@@ -31,7 +31,7 @@ class ChildMatchComponent extends React.Component {
                         <Row style={{paddingTop: '1em'}}>
                             <Col className="mx-auto">
                                 <div style={{display: 'flex', justifyContent: "center"}}>
-                                    <Link to={"/teams/" + this.state.match.robot.teamNumber}>
+                                    <Link to={"/teams/" + this.state.match.teamNumber}>
                                         <Button style={{marginRight: '1em'}}>Team Statisics</Button>
                                     </Link>
                                     <Button>Match Performance</Button>

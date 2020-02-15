@@ -23,12 +23,11 @@ class TeamInMatch extends Component {
 
     onChange = (e)=>{
         this.setState({[e.target.name]: e.target.value});
-        console.log(this.state);
     }
 
     getMatch = (teamNumber, matchNumber) => {
         fetch(this.url + '/getallscoutentries/0?teamNumber=' + teamNumber +'&matchNumber=' + matchNumber, {
-        }).then(doc=>doc.json()).then(doc => this.props.sendMatches(doc));
+        }).then(doc=>doc.json()).then(doc => this.props.sendMatches(doc)).catch(err=>console.log(err));
     }
     render() {
         return (

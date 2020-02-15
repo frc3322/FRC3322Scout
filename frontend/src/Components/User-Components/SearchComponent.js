@@ -43,7 +43,7 @@ class SearchComponent extends React.Component {
     render() {
         let matchComponents = [];
         this.state.matches.forEach((element)=>{
-            matchComponents.push(<ChildMatchComponent key={element.matchNumber + "m_" + element.robot.allianceColor + element.robot.allianceNumber} match={element}> </ChildMatchComponent>);
+            matchComponents.push(<ChildMatchComponent key={element.matchNumber + "m_" + element.allianceColor + element.allianceNumber} match={element}> </ChildMatchComponent>);
         });
         
         return (
