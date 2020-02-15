@@ -81,10 +81,10 @@ app.get('/create-match/:matchNumber', (req, res) => {
 
 app.get('/getallscoutentries/:skip', (req, res) => {
     let search = scoutMatches;
-    if (Number.isInteger(req.query.teamNumber)) {
-        search = search.where('teamNumber', '==', req.query.teamNumber);
+    if (parseInt(req.query.teamNumber) != NaN && req.query.teamNumber != 0 && req.query.teamNumber != undefined) {
+        search = search.where('teamNumber', '==', parseInt(req.query.teamNumber));
     }
-    if (Number.isInteger(req.query.matchNumber)) {
+    if (parseInt(req.query.matchNumber) != NaN && req.query.matchNumber != 0 && req.query.matchNumber != undefined) {
         search = search.where('matchNumber', '==', req.query.matchNumber);
     }
     search.get().then(snapshot => {
