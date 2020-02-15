@@ -59,7 +59,7 @@ export default class TeamStatistics extends Component {
 
                 for (let i = 0; i < mCollection[0].length; i++) {
                     mCollection.forEach(match => {
-                        outputData.push([match[i].dataValue, match[i].matchNumber]);
+                        outputData.push(match[i].dataValue);
                         itemName = match[i].name;
                     });
                     output.push(<StatisticItem key={output.length} itemName = {itemName} chartType = {mCollection[0][i].chartType} data={outputData} />);
