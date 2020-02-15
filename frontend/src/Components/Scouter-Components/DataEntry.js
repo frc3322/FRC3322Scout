@@ -91,22 +91,23 @@ export default class DataEntry extends React.Component {
 
 
         return (
-        <Container fluid="true">
+            <Container fluid="true">
             <Row><Col xs="6" style={{textAlign: "center"}}><h1>Team {teamNumber} </h1> </Col> <Col style={{textAlign: "center"}}> <h1> Match {matchNumber} </h1></Col></Row>
-    <Row><Col /><Col xs="12" md="4"> 
-    <Dropdown>
-        
-        <DropdownButton style={{width: "100%"}} title={this.state.currentPeriod}>
-        <DropdownItem onClick={this.setSelected.bind(this, AUTO)}>Autonomous</DropdownItem>
-        <DropdownItem onClick={this.setSelected.bind(this, TELEOP)}>Teleop</DropdownItem>
-        <DropdownItem onClick={this.setSelected.bind(this, ENDGAME)}>Endgame</DropdownItem>
-        </DropdownButton>
-        </Dropdown>
-        
-        </Col> <Col /></Row>
-            <Row />
+            <Row><Col /><Col xs="12" md="4"> 
+
+            <Dropdown>
+                <DropdownButton style={{width: "100%"}} title={this.state.currentPeriod}>
+                <DropdownItem onClick={this.setSelected.bind(this, AUTO)}>Autonomous</DropdownItem>
+                <DropdownItem onClick={this.setSelected.bind(this, TELEOP)}>Teleop</DropdownItem>
+                <DropdownItem onClick={this.setSelected.bind(this, ENDGAME)}>Endgame</DropdownItem>
+                </DropdownButton>
+            </Dropdown>
+            </Col><Col /></Row><Row/>
             {this.state.itemsList}
-            <Row style={{marginTop: "3em"}}><Col /> <Col md="5"><Button style={{width: "100%", padding: "1em"}} onClick={this.updateItems}> Save </Button></Col><Col /></Row>
+            <Row style={{marginTop: "3em"}}><Col /> <Col md="5">
+                <Button style={{width: "100%", padding: "1em"}} onClick={this.updateItems}> Save </Button>
+                </Col><Col />
+            </Row>
             </Container>
         )
     }
