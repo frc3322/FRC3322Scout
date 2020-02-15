@@ -35,8 +35,8 @@ const scoutMatches = db.collection('scoutmatches');
         },
         stats: {
             auto: {},
-            teleop: {testStat: Math.floor(Math.random() * 10)},
-            endgame: {testStat: Math.floor(Math.random() * 10)}
+            teleop: {testStat: 0},
+            endgame: {testStat: 0}
         }
     }
 */
@@ -57,21 +57,27 @@ app.post('/create-match/', (req, res) => {
             allianceNumber: req.body.allianceNumber,
             stats: {
                 auto: [
-                    new Statistic("Sandstorm bonus", false, "O"),
-                    new Statistic("Hatches", 0, "L"),
-                    new Statistic("Cargo", 0, "L"),
-                    new Statistic("Complete rocket", false, "O")
+                    new Statistic("Moved", false, 'O'),
+                    new Statistic("Scored Bottom", 0, "L"),
+                    new Statistic("Scored Outer", 0, "L"),
+                    new Statistic("Scored Inner", 0, "L"),
+                    new Statistic("Balls Missed", 0, "L")
+
                 ],
-                teleop:[
-                    new Statistic("Hatches", 0, "L"),
-                    new Statistic("Cargo", 0, "L"),
-                    new Statistic("Complete rocket", false, "O")
+                teleop: [
+                    new Statistic("Scored Bottom", 0, "L"),
+                    new Statistic("Scored Outer", 0, "L"),
+                    new Statistic("Scored Inner", 0, "L"),
+                    new Statistic("Balls Missed", 0, "L"),
+                    new Statistic("Rotation Control", false, "O"),
+                    new Statistic("Position Control", false, "O")
                 ],
-                endgame:[
-                    new Statistic("Hatches", 0, "L"),
-                    new Statistic("Cargo", 0, "L"),
-                    new Statistic("Complete rocket", false, "O"),
-                    new Statistic("Hab bofnus", false, "O")
+                endgame: [
+                    new Statistic("Did Climb", false, "O"),
+                    new Statistic("Did Park", false, "O"),
+                    new Statistic("Broke Down", false, "O"),
+                    new Statistic("Defense", false, "O"),
+                    new Statistic("Foul", false, "O")
                 ]
             }
         }
