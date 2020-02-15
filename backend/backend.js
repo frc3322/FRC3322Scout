@@ -57,21 +57,21 @@ app.post('/create-match/', (req, res) => {
             allianceNumber: req.body.allianceNumber,
             stats: {
                 auto: [
-                    new Statistic("Moved", Math.random() > .5, 'O'),
-                    new Statistic("Scored Bottom", Math.floor(Math.random() * 10), "L"),
-                    new Statistic("Scored Outer", Math.floor(Math.random() * 10), "L"),
-                    new Statistic("Scored Inner", Math.floor(Math.random() * 10), "L")
+                    new Statistics("Sandstorm bonus", false, "O"),
+                    new Statistics("Hatches", 0, "L"),
+                    new Statistics("Cargo", 0, "L"),
+                    new Statistics("Complete rocket", false, "O")
                 ],
-                teleop: [
-                    new Statistic("Scored Bottom", Math.floor(Math.random() * 10), "L"),
-                    new Statistic("Scored Outer", Math.floor(Math.random() * 10), "L"),
-                    new Statistic("Scored Inner", Math.floor(Math.random() * 10), "L"),
-                    new Statistic("Rotation Control", Math.random() > .5, "O"),
-                    new Statistic("Position Control", Math.random() > .5, "O")
+                teleop:[
+                    new Statistics("Hatches", 0, "L"),
+                    new Statistics("Cargo", 0, "L"),
+                    new Statistics("Complete rocket", false, "O")
                 ],
-                endgame: [
-                    new Statistic("Did Climb", Math.random() > .5, "O"),
-                    new Statistic("Did Park", Math.random() > .5, "O")
+                endgame:[
+                    new Statistics("Hatches", 0, "L"),
+                    new Statistics("Cargo", 0, "L"),
+                    new Statistics("Complete rocket", false, "O"),
+                    new Statistics("Hab bonus", 0, "O")
                 ]
             }
         }
