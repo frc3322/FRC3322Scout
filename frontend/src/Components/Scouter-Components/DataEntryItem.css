@@ -1,0 +1,24 @@
+.dataEntryItem {
+    margin-top: 3em;
+    box-shadow: 0 1px 6px 0 rgba(37,37,37,0.28);
+    border-radius: 0.5em;
+    padding: 0.5em;
+    width: 90%;
+}
+
+.dataEntryButton {
+    width: 100%;
+}
+
+.colCentered {
+    display: flex;
+    justify-content: center;
+}
+
+.dataEntryNumInput {
+    border: none;
+}
+
+.dataEntryNumInput:focus {
+    outline: none;
+}

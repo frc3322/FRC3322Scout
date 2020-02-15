@@ -1,33 +1,37 @@
 let Statistic = require('./Statistic');
-let mongoose = require('mongoose');
 let express = require('express');
-let RobotMatchModel = require("./RobotMatchModel");
 let app = express();
 let bodyParser = require('body-parser');
 let http = require('http');
-let cors = require('cors');
 let server = http.createServer(app);
+let axios = require('axios');
+let admin = require("firebase-admin");
+let cors = require('cors');
 
 app.use(bodyParser.json());
 app.use(cors());
 
-// Connect to database.
-mongoose.connect("mongodb://localhost:27017/scout").then(()=>{
-    console.log("Connected")
-    })
-    .catch((error)=>{
-        console.log("Not connected. Error: " + error);
-    });
 
+// Fetch the service account key JSON file contents
+var serviceAccount = require("./firebasekey.json");
+
+// Initialize the app with a service account, granting admin privileges
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+let db = admin.firestore();
+
+const scoutMatches = db.collection('scoutmatches');
 
 /*
 {
-        matchNumber: incJson.matchNumber,
+        matchNumber: `i`ncJson.matchNumber,
         won: incJson.won,
         robot: {
-            teamNumber: incJson.robot.teamNumber,
-            allianceColor: incJson.robot.allianceColor,
-            allianceNumber: incJson.robot.allianceNumber
+            teamNumber: incJson.teamNumber,
+            allianceColor: incJson.allianceColor,
+            allianceNumber: incJson.allianceNumber
         },
         stats: {
             auto: {},
@@ -36,96 +40,79 @@ mongoose.connect("mongodb://localhost:27017/scout").then(()=>{
         }
     }
 */
+
+
 function createRecord(incJson) {
-    new RobotMatchModel(incJson).save().catch(() => {
-        console.log("Something went wrong while saving. Possible duplicate?")
-    });
+    scoutMatches.doc("t"+incJson.teamNumber+"m"+incJson.matchNumber).set(JSON.parse(JSON.stringify(incJson)));
 }
 
-function findTeamByMatchNumber(teamNumber, matchNumber) {
-    return RobotMatchModel.find({'robot.teamNumber': teamNumber, matchNumber: matchNumber});
-}
-
-function findTeamsInMatch(matchNumber) {
-    return RobotMatchModel.find({matchNumber: matchNumber});
-}
-
-function findTeamMatches(teamNumber) {
-    return RobotMatchModel.find({'robot.teamNumber': teamNumber});
-}
-
-
-function updateTeam(matchJson, callback) {
-    RobotMatchModel.findOneAndUpdate({
-        matchNumber: matchJson.matchNumber,
-        'robot.teamNumber': matchJson.robot.teamNumber
-    }, matchJson, {upsert: true}, err => {
-        callback(err)
-    });
-}
-
-
-app.get('/create-match/:matchNumber', (req, res) => {
+app.post('/create-match/', (req, res) => {
+    if (req.body.teamNumber != undefined &&  parseInt(req.body.teamNumber) != NaN && req.body.teamNumber != undefined && parseInt(req.body.matchNumber) != NaN) {
     createRecord(
         {
-            matchNumber: req.params.matchNumber,
-            won: true,
-            robot: {
-                teamNumber: 6429,
-                allianceColor: "red",
-                allianceNumber: 1
-            },
+            matchNumber: parseInt(req.body.matchNumber),
+            won: false,
+            teamNumber: parseInt(req.body.teamNumber),
+            allianceColor: req.body.allianceColor,
+            allianceNumber: req.body.allianceNumber,
             stats: {
                 auto: [
-                    new Statistic("Moved", Math.random() > .5, 'O'),
-                    new Statistic("Scored Bottom", Math.floor(Math.random() * 10), "L"),
-                    new Statistic("Scored Outer", Math.floor(Math.random() * 10), "L"),
-                    new Statistic("Scored Inner", Math.floor(Math.random() * 10), "L")
+                    new Statistic("Sandstorm bonus", false, "O"),
+                    new Statistic("Hatches", 0, "L"),
+                    new Statistic("Cargo", 0, "L"),
+                    new Statistic("Complete rocket", false, "O")
                 ],
-                teleop: [
-                    new Statistic("Scored Bottom", Math.floor(Math.random() * 10), "L"),
-                    new Statistic("Scored Outer", Math.floor(Math.random() * 10), "L"),
-                    new Statistic("Scored Inner", Math.floor(Math.random() * 10), "L"),
-                    new Statistic("Rotation Control", Math.random() > .5, "O"),
-                    new Statistic("Position Control", Math.random() > .5, "O")
+                teleop:[
+                    new Statistic("Hatches", 0, "L"),
+                    new Statistic("Cargo", 0, "L"),
+                    new Statistic("Complete rocket", false, "O")
                 ],
-                endgame: [
-                    new Statistic("Did Climb", Math.random() > .5, "O"),
-                    new Statistic("Did Park", Math.random() > .5, "O")
+                endgame:[
+                    new Statistic("Hatches", 0, "L"),
+                    new Statistic("Cargo", 0, "L"),
+                    new Statistic("Complete rocket", false, "O"),
+                    new Statistic("Hab bofnus", false, "O")
                 ]
             }
         }
     )
     console.log("I did stuff!");
     res.send("I did the function!");
-});
-
-app.get('/getteaminmatch/:teamNumber/:matchNumber', (req, res)=>{
-        findTeamByMatchNumber(req.params.teamNumber, req.params.matchNumber).then(doc => res.send(doc));
-});
-
-app.get('/getallteamsinmatch/:matchNumber', (req, res)=>{
-    findTeamsInMatch(req.params.matchNumber).then(doc => res.send(doc));
-});
-
-app.get('/getteamstats/:teamNumber', (req, res)=>{
-    findTeamMatches(req.params.teamNumber).then(doc => res.send(doc));
+    }
 });
 
 app.get('/getallscoutentries/:skip', (req, res) => {
-    //TODO Implement Search By Last ID instead. The .skip method won't scale.
-    let searchParams = {}
-    if (req.query.teamNumber !== '') {
-        searchParams['robot.teamNumber'] = req.query.teamNumber;
+    let search = scoutMatches;
+    if (parseInt(req.query.teamNumber) != NaN && req.query.teamNumber != 0 && req.query.teamNumber != undefined) {
+        search = search.where('teamNumber', '==', parseInt(req.query.teamNumber));
     }
-    if (req.query.matchNumber !== '') {
-        searchParams['matchNumber'] = req.query.matchNumber;
+    if (parseInt(req.query.matchNumber) != NaN && req.query.matchNumber != 0 && req.query.matchNumber != undefined) {
+        search = search.where('matchNumber', '==', parseInt(req.query.matchNumber));
     }
-    console.log(searchParams);
+    search.get().then(snapshot => {
+        if (snapshot.empty) {
+          console.log('No matching documents.');
+          return;
+        }  
+        let results = [];
+        snapshot.forEach(doc => {
+            results.push(doc.data());
+        });
+        res.send(results);
+      })
+      .catch(err => {
+        console.log('Error getting documents', err);
+      });
     
-    let query = (!req.params.skip.isNaN) ? RobotMatchModel.find(searchParams).limit(10).skip(parseInt(req.params.skip)) : RobotMatchModel.find(searchParams).limit(10);
-    
-    return query.then(doc => res.send(doc)).catch(err=>console.log(err));
+        });
+
+function populateMatches(eventKey) {
+    axios.get("https://www.thebluealliance.com/api/v3/event//matches/simple", {"X-TBA-Auth-Key": "84zuY6dS8oOnAyKc09C59oxVfuOwscn6Ak6EXrChraCjY6DNmdFgJOSXX0lLBfMd"})
+}
+
+app.post('/updateteam', (req, res) => {
+    let { matchNumber, teamNumber, stats } = req.body;
+    scoutMatches.doc('t'+teamNumber+'m'+matchNumber).update({stats}).then(()=>res.sendStatus(200));
 });
 
 server.listen(8080);

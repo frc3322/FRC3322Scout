@@ -24,7 +24,7 @@ class AllTeamsInMatch extends Component {
     }
 
     getMatch = (teamNumber) => {
-        fetch(this.url + '/getteamstats/' + teamNumber).then(doc=>doc.json()).then(doc => this.props.sendMatches(doc));
+        fetch(this.url + '/getallscoutentries/0?teamNumber=' + teamNumber).then(doc=>doc.json()).then(doc => this.props.sendMatches(doc));
     }
     render() {
         return (

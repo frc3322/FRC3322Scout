@@ -1,10 +1,10 @@
-input {
+.searchContainer input, select {
     border-radius: 0.5em;
     border: rgba(0, 0, 0, 0.2) 1px solid;
     padding: 0.5em;
 }
 
-input:focus {
+.searchContainer input:focus {
     animation-duration: 0.5s;
     animation-name: input-focus;
     transform: scale(1.03);
@@ -67,6 +67,14 @@ input:focus {
 .navbar {
     width: 100%;
     box-shadow: 0 1px 8px 0 rgba(37,37,37,0.22);
+}
+
+.navbar * {
+    padding: 0;
+}
+
+.navbar h1 {
+    font-size: 2em;
 }
 
 .navbarItem {

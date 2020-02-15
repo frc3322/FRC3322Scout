@@ -19,7 +19,7 @@ export default class TeamStatistics extends Component {
     }
 
     getMatch = (teamNumber) => {
-        fetch(this.url + '/getteamstats/' + teamNumber).then(doc=>doc.json()).then((doc) => {
+        fetch(this.url + '/getallscoutentries/0?teamNumber=' + teamNumber).then(doc=>doc.json()).then((doc) => {
             doc.forEach(element => {
                 if (element.stats !== undefined) {
                     this.setState(prevState => ({
@@ -56,15 +56,13 @@ export default class TeamStatistics extends Component {
             if (mCollection.length > 0) {
                 let itemName = "";
                 let outputData = [];
-
+                console.log(mCollection)
                 for (let i = 0; i < mCollection[0].length; i++) {
                     mCollection.forEach(match => {
                         outputData.push(match[i].dataValue);
                         itemName = match[i].name;
                     });
-                    output.push(<StatisticItem itemName = {itemName} chartType = {mCollection[0][i].chartType} data={outputData} i = {i} />);
-                    // Schema mCollection[0][i]
-                    // match[i]
+                    output.push(<StatisticItem key={output.length} itemName = {itemName} chartType = {mCollection[0][i].chartType} data={outputData} />);
                     outputData = [];
                 }
 
