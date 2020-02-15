@@ -83,7 +83,7 @@ export default class DataEntry extends React.Component {
     }
 
     setSelected = (newPeriod) => {
-        this.setState({currentPeriod: newPeriod}, this.displayItems)
+        this.setState({currentPeriod: newPeriod, itemsList: []}, this.displayItems)
     }; 
 
     render() {
