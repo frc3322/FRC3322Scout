@@ -87,7 +87,7 @@ app.get('/getallscoutentries/:skip', (req, res) => {
         search = search.where('teamNumber', '==', parseInt(req.query.teamNumber));
     }
     if (parseInt(req.query.matchNumber) != NaN && req.query.matchNumber != 0 && req.query.matchNumber != undefined) {
-        search = search.where('matchNumber', '==', req.query.matchNumber);
+        search = search.where('matchNumber', '==', parseInt(req.query.matchNumber));
     }
     search.get().then(snapshot => {
         if (snapshot.empty) {
