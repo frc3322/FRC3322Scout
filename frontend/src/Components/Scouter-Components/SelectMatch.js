@@ -80,12 +80,16 @@ export default class SelectMatch extends Component {
                 <Modal.Header closeButton>
                 <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
-                <Modal.Body><input placeholder="Team Number" /></Modal.Body>
+                <Modal.Body className="searchContainer">
+                    <input placeholder="Team Number" />
+                    <input placeholder="Match Number" />
+                    <input placeholder="Alliance Number" />
+                </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={this.handleClosed}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={}>
+                <Button variant="primary">
                     Save Changes
                 </Button>
                 </Modal.Footer>
