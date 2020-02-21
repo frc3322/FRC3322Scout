@@ -59,7 +59,13 @@ export default class StatsticItem extends React.Component {
                     ],
                     borderWidth: 1,
                     fill: false
-        }]}} /> : ""} </Col></Row>);
+                }]}} /> : ""} </Col></Row>);
+            case "C":
+                return(
+                <Row className="statsRow">
+                    <Col xs="6" md="4"><h4>{itemName}</h4></Col>
+                    <Col xs="6" md="2"><p>please fix</p></Col>
+                    </Row>);
             default:
                 return (<Row><Col>Unknown data type</Col></Row>);
         }
