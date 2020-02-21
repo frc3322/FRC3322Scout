@@ -12,7 +12,7 @@ export default class CommentItem extends React.Component {
         
     }
 
-    changeState = () => this.setState((prevState)=>{return {itemValue: !prevState.itemValue}}, () => {this.props.update(this.state.itemValue)});
+    changeState = (e) => this.setState({itemValue: e.target.value}, () => {this.props.update(this.state.itemValue)});
 
     giveComponent = () => {
         let { item } = this.props;
@@ -23,6 +23,7 @@ export default class CommentItem extends React.Component {
             case "C":
             return (<Container className="dataEntryItem">
                 <TextField
+                style={{width:"100%"}}
                 id="outlined-multiline-static"
                 label="Comment"
                 multiline
