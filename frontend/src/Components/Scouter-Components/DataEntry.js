@@ -69,7 +69,7 @@ export default class DataEntry extends React.Component {
         let { stats } = this.state;
         
         let url = "http://" + window.location.hostname + ":8080/updateteam";;
-        axios.post(url, {teamNumber, matchNumber, stats}).then(() => this.setState({saveNotificationShowing: true})).catch(alert("Error"));
+        axios.post(url, {teamNumber, matchNumber, stats}).then(() => this.setState({saveNotificationShowing: true})).catch(() => alert("Error"));
     }
 
     updateFromChild = (index, data) => {
