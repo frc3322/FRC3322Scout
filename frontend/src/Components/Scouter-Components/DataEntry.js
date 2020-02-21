@@ -1,11 +1,13 @@
 import React from 'react'
-import { Container, Row, Col, Button, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Container, Row, Col, Button, Dropdown, DropdownButton, Alert } from 'react-bootstrap';
 import DataEntryItem from './DataEntryItem';
 import PropTypes from 'prop-types'
 import axios from 'axios';
 import scoutValidate from "../../SchemaValidator.js"
 import DropdownItem from 'react-bootstrap/DropdownItem';
 import ToggleItem from './ToggleItem';
+import { Snackbar, SnackbarContent } from '@material-ui/core';
+import { CheckCircleOutlineRounded } from '@material-ui/icons'
 
 const AUTO = "Autonomous", TELEOP = "Teleop", ENDGAME = "Endgame";
 
@@ -20,7 +22,8 @@ export default class DataEntry extends React.Component {
                 endgame: []
             },
             currentPeriod: AUTO,
-            itemsList: []
+            itemsList: [],
+            saveNotificationShowing: false
         };
     }
 
@@ -30,7 +33,7 @@ export default class DataEntry extends React.Component {
         this.setState({teamNumber, matchNumber});
         let url = "http://" + window.location.hostname + ":8080/getallscoutentries/0?teamNumber=" + parseInt(this.props.match.params.teamNumber) + "&matchNumber=" + parseInt(this.props.match.params.matchNumber);
         fetch(url).then(doc=>doc.json()).catch(err=>console.log("Error")).then(doc=>{
-            if (doc.length > 0) {
+            if (doc != undefined && doc.length > 0) {
                 if (doc[0].hasOwnProperty('stats')) {
                     this.setState({stats: doc[0].stats}, this.displayItems)
                 }
@@ -66,7 +69,7 @@ export default class DataEntry extends React.Component {
         let { stats } = this.state;
         
         let url = "http://" + window.location.hostname + ":8080/updateteam";;
-        axios.post(url, {teamNumber, matchNumber, stats}).then(res=>console.log(res));
+        axios.post(url, {teamNumber, matchNumber, stats}).then(() => this.setState({saveNotificationShowing: true})).catch(alert("Error"));
     }
 
     updateFromChild = (index, data) => {
@@ -85,6 +88,10 @@ export default class DataEntry extends React.Component {
     setSelected = (newPeriod) => {
         this.setState({currentPeriod: newPeriod, itemsList: []}, this.displayItems)
     }; 
+
+    handleSaveClose = () => {
+        this.setState({saveNotificationShowing: false});
+    }
 
     render() {
         let { teamNumber, matchNumber} = this.state;
@@ -108,6 +115,9 @@ export default class DataEntry extends React.Component {
                 <Button style={{width: "100%", padding: "1em"}} onClick={this.updateItems}> Save </Button>
                 </Col><Col />
             </Row>
+            <Snackbar open={this.state.saveNotificationShowing} autoHideDuration={6000} onClose={this.handleSaveClose}>
+        <SnackbarContent style={{backgroundColor: "#4caf50"}} message = {<React.Fragment><CheckCircleOutlineRounded/> Saved </React.Fragment>}/>
+            </Snackbar>
             </Container>
         )
     }

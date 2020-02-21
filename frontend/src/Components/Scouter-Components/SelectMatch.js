@@ -53,6 +53,11 @@ export default class SelectMatch extends Component {
         this.fetchEntries(this.state.searchTeamNumber, this.state.searchTeamNumber);
     }
 
+    addLocalMatch = (teamNumber, matchNumber) => {
+        this.setState((prevState) => { return {matches: [<Row className="scoutEntryItem" key={"t" + teamNumber + "m" + matchNumber}> <MatchItem teamNumber={teamNumber} matchNumber={matchNumber}></MatchItem></Row>, ...prevState.matches]}});
+        this.handleClosed();
+    }
+
     handleClosed = () => {
         this.setState({newMatchShown: false});
     }
@@ -63,7 +68,7 @@ export default class SelectMatch extends Component {
     
     createMatch = () => {
         let {teamNumber, matchNumber, allianceNumber, allianceColor} = this.state;
-        axios.post(this.url + '/create-match', {teamNumber, matchNumber, allianceColor, allianceNumber}).then(this.handleClosed());
+        axios.post(this.url + '/create-match', {teamNumber, matchNumber, allianceColor, allianceNumber}).then(()=>this.addLocalMatch(teamNumber, matchNumber));
     }
 
     render() {

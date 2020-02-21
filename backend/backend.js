@@ -69,8 +69,11 @@ app.post('/create-match/', (req, res) => {
                     new Statistic("Scored Outer", 0, "L"),
                     new Statistic("Scored Inner", 0, "L"),
                     new Statistic("Balls Missed", 0, "L"),
-                    new Statistic("Rotation Control", false, "O"),
-                    new Statistic("Position Control", false, "O")
+                    new Statistic("Attempted Rotation Control", false, "O"),
+                    new Statistic("Got Rotation Point", false, "O"),
+                    new Statistic("Attempted Position Control", false, "O"),
+                    new Statistic("Got Position Point", false, "O")
+
                 ],
                 endgame: [
                     new Statistic("Did Climb", false, "O"),
