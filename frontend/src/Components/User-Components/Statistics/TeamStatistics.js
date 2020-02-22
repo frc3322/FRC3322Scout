@@ -24,7 +24,7 @@ export default class TeamStatistics extends Component {
             let matchNumber=[]
             doc.forEach(element => {
                 if (element.stats !== undefined) {
-                    matchNumber.push(element.matchNumber);
+                    matchNumber.push("Match " + element.matchNumber);
                     this.setState(prevState => ({
                         auto: [...prevState.auto, element.stats.auto],
                         teleop: [...prevState.teleop, element.stats.teleop],

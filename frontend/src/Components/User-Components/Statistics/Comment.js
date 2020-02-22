@@ -14,7 +14,7 @@ export default class Comment extends React.Component {
         console.log(matchNum)
 
         for (let i = 0; i < comments.length; i++) {
-            output.push(<p>Match {matchNum[i]}: {comments[i]}</p>)
+            output.push(<p>{matchNum[i]}: {comments[i]}</p>)
         }
         
         return output;
