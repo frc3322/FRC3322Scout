@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Container, Row, Col, Dropdown, DropdownButton } from 'react-bootstrap';
 import './TeamStatistics.css';
 import DropdownItem from 'react-bootstrap/DropdownItem';
-import StatisticItem from "./StatsticItem";
+import StatisticItem from "./StatisticItem";
 
 export default class TeamStatistics extends Component {
 

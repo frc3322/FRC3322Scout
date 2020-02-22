@@ -5,7 +5,7 @@ import { Line, Doughnut } from 'react-chartjs-2';
 import "./TeamStatistics.css";
 import Comment from './Comment.js';
 
-export default class StatsticItem extends React.Component {
+export default class StatisticItem extends React.Component {
 
     constructor(props) {
         super(props);
@@ -81,7 +81,7 @@ export default class StatsticItem extends React.Component {
     }
 }
 
-StatsticItem.propTypes = {
+StatisticItem.propTypes = {
     itemName: PropTypes.string.isRequired,
     outputData: PropTypes.array.isRequired,
     chartType: PropTypes.string.isRequired,
