@@ -6,6 +6,7 @@ import axios from 'axios';
 import scoutValidate from "../../SchemaValidator.js"
 import DropdownItem from 'react-bootstrap/DropdownItem';
 import ToggleItem from './ToggleItem';
+import CommentItem from './CommentItem';
 import { Snackbar, SnackbarContent } from '@material-ui/core';
 import { CheckCircleOutlineRounded } from '@material-ui/icons'
 
@@ -56,9 +57,10 @@ export default class DataEntry extends React.Component {
                     itemsList.push(<Row key={key}> <Col /><Col md="6"><DataEntryItem index={key} item={item} update={this.updateFromChild.bind(this, key)} /></Col><Col /></Row>)
                 } else if (item.chartType === "O") {
                     itemsList.push(<Row key={key}> <Col /><Col md="6"><ToggleItem index={key} item={item} update={this.updateFromChild.bind(this, key)} /> </Col><Col /></Row>)
+                } else if (item.chartType === "C"){
+                    itemsList.push(<Row key={key}> <Col /><Col md="6"><CommentItem index={key} item={item} update={this.updateFromChild.bind(this, key)} /> </Col><Col /></Row>)
                 }
-                }
-            );
+            });
         }
         console.log(mCollection.length)
         this.setState({itemsList})

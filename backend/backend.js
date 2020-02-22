@@ -80,7 +80,8 @@ app.post('/create-match/', (req, res) => {
                     new Statistic("Did Park", false, "O"),
                     new Statistic("Broke Down", false, "O"),
                     new Statistic("Defense", false, "O"),
-                    new Statistic("Foul", false, "O")
+                    new Statistic("Foul", false, "O"),
+                    new Statistic("Comment", "", "C")
                 ]
             }
         }

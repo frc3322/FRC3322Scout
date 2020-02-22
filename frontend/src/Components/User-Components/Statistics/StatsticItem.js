@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'react-bootstrap';
 import { Line, Doughnut } from 'react-chartjs-2';
 import "./TeamStatistics.css";
+import Comment from './Comment.js';
 
 export default class StatsticItem extends React.Component {
 
@@ -16,31 +17,35 @@ export default class StatsticItem extends React.Component {
     }
 
     generate = () => {
-        let { itemName, chartType, data } = this.props;
+        let { itemName, chartType, data, labels} = this.props;
         let nItems = data.length;
-        let labels = data.map(element => element.matchNumber)
         switch (chartType) {
             case "L":
-                return(<Row className="statsRow" onClick={this.toggleChart}><Col xs="6" md="4"><h4>{itemName}</h4></Col><Col xs="6" md="2"><h4>{(data.reduce((total, a) => total + a) / nItems).toFixed(2)}</h4></Col><Col md="6">{(this.state.chartShown) ? <Line data={{labels, datasets: [{
-                    label: itemName,
-                    data: data,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)'
-                    ],
-                    borderWidth: 1,
-                    fill: false
-                }]}} options={{
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }} /> : ""}</Col></Row>);
+                return(
+                <Row className="statsRow" onClick={this.toggleChart}>
+                    <Col xs="6" md="4"><h4>{itemName}</h4></Col>
+                    <Col xs="6" md="2"><h4>{(data.reduce((total, a) => total + a) / nItems).toFixed(2)}</h4></Col>
+                    <Col md="6">{(this.state.chartShown) ? <Line data={{labels: labels, datasets: [{
+                        label: itemName,
+                        data: data,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    }]}} options={{
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }} /> : ""}</Col>
+                </Row>);
             
             case "O":
                 // Do pie chart stuff
@@ -59,7 +64,13 @@ export default class StatsticItem extends React.Component {
                     ],
                     borderWidth: 1,
                     fill: false
-        }]}} /> : ""} </Col></Row>);
+                }]}} /> : ""} </Col></Row>);
+            case "C":
+                return(
+                <Row className="statsRow">
+                    <Col xs="6" md="4"><h4>{itemName}</h4></Col>
+                    <Col xs="6" md="2"><Comment comments={data} matchNum={labels}/></Col>
+                </Row>);
             default:
                 return (<Row><Col>Unknown data type</Col></Row>);
         }

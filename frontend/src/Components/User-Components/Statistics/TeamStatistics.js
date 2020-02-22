@@ -14,14 +14,17 @@ export default class TeamStatistics extends Component {
             selected: "",
             auto: [],
             teleop: [],
-            endgame: []
+            endgame: [],
+            matchNumbers: []
         }
     }
 
     getMatch = (teamNumber) => {
         fetch(this.url + '/getallscoutentries/0?teamNumber=' + teamNumber).then(doc=>doc.json()).then((doc) => {
+            let matchNumber=[]
             doc.forEach(element => {
                 if (element.stats !== undefined) {
+                    matchNumber.push(element.matchNumber);
                     this.setState(prevState => ({
                         auto: [...prevState.auto, element.stats.auto],
                         teleop: [...prevState.teleop, element.stats.teleop],
@@ -29,7 +32,10 @@ export default class TeamStatistics extends Component {
                     }));
                 }
             });
-
+            console.log(matchNumber)
+            this.setState(prevState => ({
+                matchNumbers: [...prevState.matchNumbers, matchNumber]
+            }));
         });
     }
 
@@ -62,7 +68,7 @@ export default class TeamStatistics extends Component {
                         outputData.push(match[i].dataValue);
                         itemName = match[i].name;
                     });
-                    output.push(<StatisticItem key={output.length} itemName = {itemName} chartType = {mCollection[0][i].chartType} data={outputData} />);
+                    output.push(<StatisticItem key={output.length} itemName = {itemName} chartType = {mCollection[0][i].chartType} data={outputData} labels={this.state.matchNumbers[0]}/>);
                     outputData = [];
                 }
 
